@@ -1,4 +1,4 @@
-package edu.metrostate.ics499.login;
+package edu.metrostate.ics499.sharedstaff;
 
 import java.awt.EventQueue;
 import java.sql.DriverManager;
