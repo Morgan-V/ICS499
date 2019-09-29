@@ -33,7 +33,7 @@ public class Login_Screen {
 	// Information to reach the database
 
 	// "RMS" is the name of the database
-	private static final String url = "jdbc:mysql://localhost:3306/RMS?useSSL=false";
+	private static final String url = "jdbc:mysql://localhost:3306/Database?useSSL=false";
 	// using root user name and password
 	private static final String user = "root";
 	private static final String password = "root";
@@ -129,7 +129,7 @@ public class Login_Screen {
 
 				// queries to find what the password and position is for the userID the user
 				// entered
-				query1 = "select UserPassword from users where UserId = " + userID + ";";
+				query1 = "select Password from users where UserId = " + userID + ";";
 				query2 = "select Position from users where UserId = " + userID + ";";
 
 				// run the first statement

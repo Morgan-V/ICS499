@@ -77,7 +77,7 @@ public class Manager_Homepage {
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame exitConfirm = new JFrame("exit");
-				if (JOptionPane.showConfirmDialog(exitConfirm, "Are you sure you would like to exit?", "RMS Login",
+				if (JOptionPane.showConfirmDialog(exitConfirm, "Are you sure you would like to exit?", "RMS System",
 						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
 					System.exit(0);
 				}
@@ -91,7 +91,6 @@ public class Manager_Homepage {
 		btnManagerUsers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[] buttons = { "Edit/Remove User", "Add User"};
-				JFrame manageUsers = new JFrame("");
 				int n = JOptionPane.showOptionDialog(null, "Please select an action", "",
 				        JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[1]);
 				if (n == 0) {
