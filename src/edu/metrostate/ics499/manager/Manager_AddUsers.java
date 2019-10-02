@@ -223,7 +223,7 @@ public class Manager_AddUsers implements ActionListener{
 	public int createUser(String pos, String fName, String lName, String password, String contact) {
 		try {
 			//ID,Position,FirstName,LastName,Password,Contact.
-			con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false","root","root");
+			con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/ems?useSSL=false","root","root");
 			stmt =  con.prepareStatement
 					("insert into users (Position, FirstName, LastName, Password, Contact) values ( ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, pos);
