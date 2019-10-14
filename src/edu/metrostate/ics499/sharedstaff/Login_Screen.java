@@ -33,7 +33,11 @@ public class Login_Screen {
 	// Information to reach the database
 
 	// "RMS" is the name of the database
+<<<<<<< Updated upstream
 	private static final String url = "jdbc:mysql://localhost:3306/rms?useSSL=false";
+=======
+	private static final String url = "jdbc:mysql://localhost:3306/RMS?useSSL=false";
+>>>>>>> Stashed changes
 	// using root user name and password
 	private static final String user = "root";
 	private static final String password = "root";
