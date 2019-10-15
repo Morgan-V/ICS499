@@ -147,7 +147,7 @@ public class Manager_AddUsers implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "Back") {
-			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+			Manager_Homepage.main(null);
 		}else if(e.getActionCommand() == "Submit") {
 			if(checkConditions()) {
 				String pos = positionChoice.getSelectedItem().toString();
