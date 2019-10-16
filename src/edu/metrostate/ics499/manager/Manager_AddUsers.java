@@ -78,7 +78,7 @@ public class Manager_AddUsers implements ActionListener{
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 210);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setTitle("Create New User");
 		frame.setResizable(false);
@@ -147,7 +147,7 @@ public class Manager_AddUsers implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "Back") {
-			Manager_Homepage.main(null);
+			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}else if(e.getActionCommand() == "Submit") {
 			if(checkConditions()) {
 				String pos = positionChoice.getSelectedItem().toString();
