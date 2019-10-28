@@ -4,6 +4,8 @@ package edu.metrostate.ics499.sharedstaff;
  * Class used to launch the program. It begins with a log in screen, verifies employment and directs the user 
  * to the homepage that is relevant to their position
  */
+
+//TO DO MAKE SURE PROPER ERROR IS THROWN WHEN TEXT IS IN USER ID
 import java.awt.EventQueue;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
