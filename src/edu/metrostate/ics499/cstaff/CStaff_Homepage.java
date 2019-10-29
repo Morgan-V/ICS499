@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import edu.metrostate.ics499.manager.Manager_AddUsers;
+import edu.metrostate.ics499.manager.Manager_EditRemoveUsers;
 import edu.metrostate.ics499.sharedstaff.Login_Screen;
 import edu.metrostate.ics499.sharedstaff.Schedule;
 
@@ -105,9 +107,24 @@ public class CStaff_Homepage {
 	frame.getContentPane().add(button_2);
 	
 	JButton btnManageMenu = new JButton("Manage Menu");
+	btnManageMenu.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			String[] buttons = { "Edit/Remove Menu Items", "Add Menu Items"};
+			int n = JOptionPane.showOptionDialog(null, "Please select an action", "",
+			        JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[1]);
+			if (n == 0) {
+				CStaff_EditRemoveMenu.main(null);
+			}
+			if (n == 1) {
+				CStaff_AddMenu.main(null);
+			}
+		}
+	});
 	btnManageMenu.setFont(new Font("Georgia", Font.PLAIN, 35));
 	btnManageMenu.setBounds(264, 213, 299, 50);
 	frame.getContentPane().add(btnManageMenu);
+	
+	
 }
 
 }

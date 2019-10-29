@@ -174,7 +174,6 @@ public class Manager_AddUsers implements ActionListener{
 			passwordMismach.setText("Passwords do not Match");
 			passwordLabel.setForeground(Color.RED);
 			passwordConfirmLabel.setForeground(Color.RED);
-			passwordConfirmLabel.setForeground(Color.RED);
 			conditionsOk = false;
 		}else {
 			passwordMismach.setText("");
