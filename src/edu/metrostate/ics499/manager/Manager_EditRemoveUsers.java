@@ -1,8 +1,8 @@
 package edu.metrostate.ics499.manager;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,6 +32,7 @@ public class Manager_EditRemoveUsers implements ActionListener{
 	private JFrame frame;
 	private JTable table;
 	
+	private Panel bottomPanel = new Panel();
 	private Panel buttonPane = new Panel();
 	private JButton updateButton;
 	private JButton deleteButton;
@@ -77,8 +78,8 @@ public class Manager_EditRemoveUsers implements ActionListener{
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 500, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new GridLayout(3,0));
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.getContentPane().setLayout(new BorderLayout());
 		data = getUsers(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 		if(data == null) {
 			data = new String[][]{{"","","","","",""}};			
@@ -117,6 +118,7 @@ public class Manager_EditRemoveUsers implements ActionListener{
 		
 		editPane.setLayout(new FlowLayout());
 		editId = new JTextField();
+		editId.setEditable(false);
 		editId.setColumns(7);
 		editPosition = new JTextField();
 		editPosition.setColumns(7);
@@ -134,19 +136,20 @@ public class Manager_EditRemoveUsers implements ActionListener{
 		editPane.add(editLName);
 		editPane.add(editPassword);
 		editPane.add(editPhone);
-		frame.getContentPane().add(editPane);
+		bottomPanel = new Panel();
+		bottomPanel.setLayout(new BorderLayout());
+		bottomPanel.add(editPane, BorderLayout.NORTH);
 		
 		buttonPane.setLayout(new FlowLayout());
 		updateButton = new JButton("Update");
 		updateButton.addActionListener(this);
-		updateButton.setBounds(0, 200, 100, 30);
 		deleteButton = new JButton("Delete");
 		deleteButton.addActionListener(this);
-		deleteButton.setBounds(100, 200, 100, 30);
 		buttonPane.add(updateButton);
 		buttonPane.add(deleteButton);
 		
-		frame.getContentPane().add(buttonPane);
+		bottomPanel.add(buttonPane, BorderLayout.CENTER);
+		frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 		
 		
 		
@@ -179,7 +182,6 @@ public class Manager_EditRemoveUsers implements ActionListener{
 	 * @return
 	 */
 	private boolean editUser(int id, String position, String FName, String LName, String Password, String Contact) {
-		//FIXME
 		try {
 			con = (Connection) DriverManager.getConnection
 					(MYSQL_URL,MYSQL_USERNAME,MYSQL_PASSWORD);
@@ -215,7 +217,6 @@ public class Manager_EditRemoveUsers implements ActionListener{
 				count++;
 			}
 			rs.first();
-			rs.next();
 			userArray = new String[count][rs.getMetaData().getColumnCount()];
 				for(int i = 0; i < count; i++) {
 					for(int j = 0; j < rs.getMetaData().getColumnCount(); j++) {
@@ -249,8 +250,6 @@ public class Manager_EditRemoveUsers implements ActionListener{
 				model.removeRow(selectedRows[0]);				
 			}
 		}
-		//TODO add refresh
-		
 	}
 	
 	private void updateFields() {
@@ -262,8 +261,6 @@ public class Manager_EditRemoveUsers implements ActionListener{
 			editPassword.setText(model.getValueAt(selectedRows[0], 4).toString());
 			editPhone.setText(model.getValueAt(selectedRows[0], 5).toString());			
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
-
 }

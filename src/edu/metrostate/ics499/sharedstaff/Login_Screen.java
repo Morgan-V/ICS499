@@ -21,6 +21,7 @@ import edu.metrostate.ics499.wstaff.WStaff_Homepage;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -82,7 +83,7 @@ public class Login_Screen {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 863, 516);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel lblUserLogin = new JLabel("User Login");
@@ -168,15 +169,19 @@ public class Login_Screen {
 				if (userentered_pword.equals(retrievedPword)) {
 					if (position.contentEquals("manager")) {
 						Manager_Homepage.main(null);
+						frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 					}
 					if (position.contentEquals("cstaff")) {
 						CStaff_Homepage.main(null);
+						frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 					}
 					if (position.contentEquals("host")) {
 						Host_Homepage.main(null);
+						frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 					}
 					if (position.contentEquals("wstaff")) {
 						WStaff_Homepage.main(null);
+						frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Password is incorrect!");

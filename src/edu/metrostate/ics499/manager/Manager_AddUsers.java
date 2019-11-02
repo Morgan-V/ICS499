@@ -236,7 +236,7 @@ public class Manager_AddUsers implements ActionListener{
 			rs.next();  
 			return rs.getInt(1);
 		} catch (SQLException e) {
-			System.out.println("error");
+			//Errors fall through to return -1.
 		}
 		return -1;
 	}

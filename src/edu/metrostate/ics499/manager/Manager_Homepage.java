@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -49,7 +50,7 @@ public class Manager_Homepage {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 875, 534);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblWelcomeToThe = new JLabel("Manager Homepage");
@@ -64,6 +65,7 @@ public class Manager_Homepage {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Login_Screen.main(null);
+					frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -95,9 +97,13 @@ public class Manager_Homepage {
 				        JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[1]);
 				if (n == 0) {
 					Manager_EditRemoveUsers.main(null);
+					frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+
 				}
 				if (n == 1) {
 					Manager_AddUsers.main(null);
+					frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+
 				}
 			}
 		});
@@ -106,6 +112,14 @@ public class Manager_Homepage {
 		frame.getContentPane().add(btnManagerUsers);
 		
 		JButton btnManagerSchedules = new JButton("Manage Schedules");
+		btnManagerSchedules.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Manager_EditSchedule.main(null);
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+			}
+		});
 		btnManagerSchedules.setFont(new Font("Georgia", Font.PLAIN, 35));
 		btnManagerSchedules.setBounds(229, 282, 389, 50);
 		frame.getContentPane().add(btnManagerSchedules);
