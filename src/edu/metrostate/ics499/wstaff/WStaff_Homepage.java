@@ -16,13 +16,14 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class WStaff_Homepage {
-
+	private static String[] arguments;
 	private JFrame frame;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		arguments = args;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -70,7 +71,7 @@ public class WStaff_Homepage {
 		JButton btnViewSchedule = new JButton("View Schedule");
 		btnViewSchedule.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Schedule.main(null);
+				Schedule.main(arguments);
 			}
 		});
 		btnViewSchedule.setFont(new Font("Georgia", Font.PLAIN, 35));

@@ -17,13 +17,14 @@ import edu.metrostate.ics499.sharedstaff.Login_Screen;
 import edu.metrostate.ics499.sharedstaff.Schedule;
 
 public class CStaff_Homepage {
-
+	private static String[] arguments;
 	private JFrame frame;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		arguments = args;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -71,7 +72,7 @@ public class CStaff_Homepage {
 	JButton btnViewSchedule = new JButton("View Schedule");
 	btnViewSchedule.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			Schedule.main(null);
+			Schedule.main(arguments);
 		}
 	});
 	btnViewSchedule.setFont(new Font("Georgia", Font.PLAIN, 35));
