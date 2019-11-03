@@ -32,7 +32,6 @@ public class CStaff_AddMenu {
 	private JFrame frame;
 	private JTextField itemNumTextField;
 	private JTextField itemNameTextField;
-	private JTextArea itemDescTextArea;
 	private JLabel menuItemLbl;
 	private JLabel lblMenuItemName;
 	private JLabel lblMenuItemDescription;
@@ -75,7 +74,7 @@ public class CStaff_AddMenu {
 
 		lblMenuItemName = new JLabel("Menu Item Name:");
 		lblMenuItemName.setFont(new Font("Georgia", Font.PLAIN, 17));
-		lblMenuItemName.setBounds(23, 79, 160, 24);
+		lblMenuItemName.setBounds(23, 93, 160, 24);
 		frame.getContentPane().add(lblMenuItemName);
 
 		lblMenuItemDescription = new JLabel("Menu Item Description:");
@@ -89,15 +88,15 @@ public class CStaff_AddMenu {
 		frame.getContentPane().add(menuItemLbl);
 
 		itemNumTextField = new JTextField();
-		itemNumTextField.setFont(new Font("Georgia", Font.PLAIN, 10));
-		itemNumTextField.setBounds(228, 30, 271, 19);
+		itemNumTextField.setFont(new Font("Georgia", Font.PLAIN, 14));
+		itemNumTextField.setBounds(230, 27, 271, 24);
 		frame.getContentPane().add(itemNumTextField);
 		itemNumTextField.setColumns(10);
 
 		itemNameTextField = new JTextField();
-		itemNameTextField.setFont(new Font("Georgia", Font.PLAIN, 10));
+		itemNameTextField.setFont(new Font("Georgia", Font.PLAIN, 14));
 		itemNameTextField.setColumns(10);
-		itemNameTextField.setBounds(228, 84, 271, 19);
+		itemNameTextField.setBounds(230, 95, 271, 24);
 		frame.getContentPane().add(itemNameTextField);
 
 		// TO-DO: CLOSE WINDOW AND LAUNCH HOMEPAGE
@@ -135,9 +134,9 @@ public class CStaff_AddMenu {
 		frame.getContentPane().add(successLabel);
 		
 		itemDescTextField = new JTextField();
-		itemDescTextField.setFont(new Font("Georgia", Font.PLAIN, 10));
+		itemDescTextField.setFont(new Font("Georgia", Font.PLAIN, 14));
 		itemDescTextField.setColumns(10);
-		itemDescTextField.setBounds(228, 138, 271, 51);
+		itemDescTextField.setBounds(230, 156, 271, 24);
 		frame.getContentPane().add(itemDescTextField);
 	}
 	

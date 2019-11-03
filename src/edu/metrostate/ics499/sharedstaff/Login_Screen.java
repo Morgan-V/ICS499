@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.Font;
 import javax.swing.JSeparator;
+import javax.swing.JFormattedTextField;
 
 public class Login_Screen {
 	// Information to reach the database
@@ -112,11 +113,11 @@ public class Login_Screen {
 		pwordfield_Password.setBounds(380, 249, 342, 41);
 		frame.getContentPane().add(pwordfield_Password);
 
-		
-//		 Login button will check the userID the user entered against what is in the
-//		 database. If there is no user, the password is set to blank and an error
-//		 message occurs when user attempts to login
-		 
+		/**
+		 * Login button will check the userID the user entered against what is in the
+		 * database. If there is no user, the password is set to blank and an error
+		 * message occurs when user attempts to login
+		 **/
 
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setFont(new Font("Georgia", Font.PLAIN, 35));
@@ -127,7 +128,11 @@ public class Login_Screen {
 				String position = null;
 				String userID = txtfield_UserID.getText();
 				String userentered_pword = pwordfield_Password.getText();
-
+				//Do not allow the user to put in anything but an int into the userID field
+				if (!userID.matches("[0-9]+")) {
+					JOptionPane.showMessageDialog(null, "UserID must be a number!");
+				}
+				else {
 				// queries to find what the password and position is for the userID the user
 				// entered
 				query1 = "select Password from users where UserId = " + userID + ";";
@@ -166,9 +171,9 @@ public class Login_Screen {
 				}
 				// if the password is correct, direct the user to the correct homepage. If
 				// password is incorrect, show error message
-				String[] arguments = {userID.toString()};
+				String[] arguments = { userID.toString() };
 				if (userentered_pword.equals(retrievedPword)) {
-					if (position.contentEquals("manager")) {
+					if (position.contentEquals("manager") || position.contentEquals("Manager")) {
 						Manager_Homepage.main(arguments);
 						frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 					}
@@ -187,6 +192,7 @@ public class Login_Screen {
 				} else {
 					JOptionPane.showMessageDialog(null, "Password is incorrect!");
 				}
+			}
 			}
 		});
 		btnLogin.setBounds(45, 399, 169, 50);
