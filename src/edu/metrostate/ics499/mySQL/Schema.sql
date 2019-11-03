@@ -50,9 +50,11 @@ CREATE TABLE `orders` (
   `OrderID` int(11) NOT NULL,
   `MenuItem` int(11) DEFAULT NULL,
   `TableID` int(11) DEFAULT NULL,
+  `SpecialRequest` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`OrderID`),
   KEY `TableID` (`TableID`),
   KEY `MenuItem` (`MenuItem`),
+  KEY `SpecialRequest` (`SpecialRequest`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`TableID`) REFERENCES `tables` (`TableID`),
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`MenuItem`) REFERENCES `menuitems` (`MenuItem`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

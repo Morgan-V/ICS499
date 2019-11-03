@@ -29,7 +29,6 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.Font;
 import javax.swing.JSeparator;
-import javax.swing.JFormattedTextField;
 
 public class Login_Screen {
 	// Information to reach the database
@@ -127,72 +126,73 @@ public class Login_Screen {
 				String retrievedPword = null;
 				String position = null;
 				String userID = txtfield_UserID.getText();
+				@SuppressWarnings("deprecation")
 				String userentered_pword = pwordfield_Password.getText();
-				//Do not allow the user to put in anything but an int into the userID field
+
+				// Do not allow the user to put in anything but an int into the userID field
 				if (!userID.matches("[0-9]+")) {
 					JOptionPane.showMessageDialog(null, "UserID must be a number!");
-				}
-				else {
-				// queries to find what the password and position is for the userID the user
-				// entered
-				query1 = "select Password from users where UserId = " + userID + ";";
-				query2 = "select Position from users where UserId = " + userID + ";";
-
-				// run the first statement
-				try {
-					con = (Connection) DriverManager.getConnection(url, user, password);
-					stmt = (Statement) con.createStatement();
-					rs = stmt.executeQuery(query1);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				// run the second statement
-				try {
-					con = (Connection) DriverManager.getConnection(url, user, password);
-					stmt = (Statement) con.createStatement();
-					rs2 = stmt.executeQuery(query2);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				// put those statements into a variable we can check data against
-				try {
-					while (rs.next()) {
-						retrievedPword = rs.getString(1);
-					}
-					while (rs2.next()) {
-						position = rs2.getString(1);
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				// if there is no password, the user does not exist
-				if (retrievedPword == null) {
-					JOptionPane.showMessageDialog(null, "User does not exist!");
-				}
-				// if the password is correct, direct the user to the correct homepage. If
-				// password is incorrect, show error message
-				String[] arguments = { userID.toString() };
-				if (userentered_pword.equals(retrievedPword)) {
-					if (position.contentEquals("manager") || position.contentEquals("Manager")) {
-						Manager_Homepage.main(arguments);
-						frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-					}
-					if (position.contentEquals("Cook Staff")) {
-						CStaff_Homepage.main(arguments);
-						frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-					}
-					if (position.contentEquals("Host")) {
-						Host_Homepage.main(arguments);
-						frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-					}
-					if (position.contentEquals("Wait Staff")) {
-						WStaff_Homepage.main(arguments);
-						frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Password is incorrect!");
+					// queries to find what the password and position is for the userID the user
+					// entered
+					query1 = "select Password from users where UserId = " + userID + ";";
+					query2 = "select Position from users where UserId = " + userID + ";";
+
+					// run the first statement
+					try {
+						con = (Connection) DriverManager.getConnection(url, user, password);
+						stmt = (Statement) con.createStatement();
+						rs = stmt.executeQuery(query1);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					// run the second statement
+					try {
+						con = (Connection) DriverManager.getConnection(url, user, password);
+						stmt = (Statement) con.createStatement();
+						rs2 = stmt.executeQuery(query2);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					// put those statements into a variable we can check data against
+					try {
+						while (rs.next()) {
+							retrievedPword = rs.getString(1);
+						}
+						while (rs2.next()) {
+							position = rs2.getString(1);
+						}
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					// if there is no password, the user does not exist
+					if (retrievedPword == null) {
+						JOptionPane.showMessageDialog(null, "User does not exist!");
+					}
+					// if the password is correct, direct the user to the correct homepage. If
+					// password is incorrect, show error message
+					String[] arguments = { userID.toString() };
+					if (userentered_pword.equals(retrievedPword)) {
+						if (position.contentEquals("manager") || position.contentEquals("Manager")) {
+							Manager_Homepage.main(arguments);
+							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+						}
+						if (position.contentEquals("Cook Staff")) {
+							CStaff_Homepage.main(arguments);
+							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+						}
+						if (position.contentEquals("Host")) {
+							Host_Homepage.main(arguments);
+							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+						}
+						if (position.contentEquals("Wait Staff")) {
+							WStaff_Homepage.main(arguments);
+							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Password is incorrect!");
+					}
 				}
-			}
 			}
 		});
 		btnLogin.setBounds(45, 399, 169, 50);

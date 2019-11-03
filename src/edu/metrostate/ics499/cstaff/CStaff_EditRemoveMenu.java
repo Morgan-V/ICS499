@@ -15,6 +15,7 @@ import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -177,6 +178,7 @@ public class CStaff_EditRemoveMenu implements ActionListener {
 	 */
 	private boolean editMenu(int id, String menuItem, String menuDesc) {
 		try {
+
 			con = (Connection) DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 			stmt = con.prepareStatement("update menuitems set ItemName = ?, ItemDesc = ? where MenuItem = ?;");
 			stmt.setString(1, menuItem);
@@ -224,18 +226,23 @@ public class CStaff_EditRemoveMenu implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == "Update") {
-			if (editMenu(Integer.parseInt(editId.getText()), editMenuName.getText(), editMenuDesc.getText())) {
+			// make sure an item is selected
+			if (editMenuName.getText().contentEquals("")) {
+				JOptionPane.showMessageDialog(null, "Please select an item");
+			} else if (editMenu(Integer.parseInt(editId.getText()), editMenuName.getText(), editMenuDesc.getText())) {
 				model.setValueAt(editId.getText(), selectedRows[0], 0);
 				model.setValueAt(editMenuName.getText(), selectedRows[0], 1);
 				model.setValueAt(editMenuDesc.getText(), selectedRows[0], 2);
 			}
-
-		}
-
-		else if (e.getActionCommand() == "Delete") {
-			int id = Integer.parseInt((String) table.getModel().getValueAt(selectedRows[0], 0));
-			if (removeMenuItem(id, MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD)) {
-				model.removeRow(selectedRows[0]);
+		} else if (e.getActionCommand() == "Delete") {
+			// make sure an item is selected
+			if (editMenuName.getText().contentEquals("")) {
+				JOptionPane.showMessageDialog(null, "Please select an item");
+			} else {
+				int id = Integer.parseInt((String) table.getModel().getValueAt(selectedRows[0], 0));
+				if (removeMenuItem(id, MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD)) {
+					model.removeRow(selectedRows[0]);
+				}
 			}
 		}
 	}

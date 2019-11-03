@@ -1,4 +1,4 @@
-package edu.metrostate.ics499.manager;
+package edu.metrostate.ics499.wstaff;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -22,15 +22,22 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingConstants;
 
-public class Manager_EditRemoveUsers implements ActionListener {
+/**
+ * 
+ * @author Morgan/Ryan This class allows the cook staff to remove and update
+ *         menu items in the database
+ *
+ */
+public class WStaff_EditRemoveOrder implements ActionListener {
 	private final String MYSQL_URL = "jdbc:mysql://localhost:3306/rms?useSSL=false";
 	private final String MYSQL_USERNAME = "root";
 	private final String MYSQL_PASSWORD = "root";
 	private static Connection con;
 	private static PreparedStatement stmt;
 	private String data[][];
-	private JFrame frame;
+	public JFrame frame;
 	private JTable table;
 
 	private Panel bottomPanel = new Panel();
@@ -41,13 +48,11 @@ public class Manager_EditRemoveUsers implements ActionListener {
 
 	private Panel editPane = new Panel();
 	private JTextField editId;
-	private JTextField editPosition;
-	private JTextField editFName;
-	private JTextField editLName;
-	private JTextField editPassword;
-	private JTextField editPhone;
+	private JTextField editMenuName;
+	private JTextField editMenuDesc;
 
 	DefaultTableModel model;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -56,7 +61,7 @@ public class Manager_EditRemoveUsers implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Manager_EditRemoveUsers window = new Manager_EditRemoveUsers();
+					WStaff_EditRemoveOrder window = new WStaff_EditRemoveOrder();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -69,7 +74,7 @@ public class Manager_EditRemoveUsers implements ActionListener {
 	/**
 	 * Create the application.
 	 */
-	public Manager_EditRemoveUsers() {
+	public WStaff_EditRemoveOrder() {
 		initialize();
 	}
 
@@ -82,9 +87,9 @@ public class Manager_EditRemoveUsers implements ActionListener {
 		frame.setBounds(100, 100, 500, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
-		data = getUsers(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
+		data = getOrders(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 		if (data == null) {
-			data = new String[][] { { "", "", "", "", "", "" } };
+			data = new String[][] { { "", "", "", "" } };
 		}
 		table = new JTable(new DefaultTableModel(0, 0)) {
 			@Override
@@ -93,14 +98,14 @@ public class Manager_EditRemoveUsers implements ActionListener {
 			}
 		};
 		model = (DefaultTableModel) table.getModel();
-		model.addColumn("ID");
-		model.addColumn("Position");
-		model.addColumn("FirstName");
-		model.addColumn("LastName");
-		model.addColumn("Password");
-		model.addColumn("Phone");
-		for (String user[] : data) {
-			model.addRow(user); // Adds all users returned by the database
+		model.addColumn("Order ID");
+		model.addColumn("Table ID");
+		model.addColumn("Order");
+		model.addColumn("Special Requests");
+
+
+		for (String menu[] : data) {
+			model.addRow(menu); // Adds all menu items returned by the database
 		}
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -111,7 +116,6 @@ public class Manager_EditRemoveUsers implements ActionListener {
 
 			}
 		});
-		// table.setModel(new DefaultTableModel(data,column));
 		JScrollPane pane = new JScrollPane(table);
 		pane.setBounds(0, 0, 435, 200);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -119,24 +123,23 @@ public class Manager_EditRemoveUsers implements ActionListener {
 
 		editPane.setLayout(new FlowLayout());
 		editId = new JTextField();
+		editId.setHorizontalAlignment(SwingConstants.CENTER);
 		editId.setEditable(false);
-		editId.setColumns(7);
-		editPosition = new JTextField();
-		editPosition.setColumns(7);
-		editFName = new JTextField();
-		editFName.setColumns(7);
-		editLName = new JTextField();
-		editLName.setColumns(7);
-		editPassword = new JTextField();
-		editPassword.setColumns(7);
-		editPhone = new JTextField();
-		editPhone.setColumns(7);
+		editId.setColumns(11);
+		editMenuName = new JTextField();
+		editMenuName.setHorizontalAlignment(SwingConstants.CENTER);
+		editMenuName.setColumns(11);
+		editMenuDesc = new JTextField();
+		editMenuDesc.setHorizontalAlignment(SwingConstants.CENTER);
+		editMenuDesc.setColumns(11);
 		editPane.add(editId);
-		editPane.add(editPosition);
-		editPane.add(editFName);
-		editPane.add(editLName);
-		editPane.add(editPassword);
-		editPane.add(editPhone);
+		
+		textField = new JTextField();
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setColumns(11);
+		editPane.add(textField);
+		editPane.add(editMenuName);
+		editPane.add(editMenuDesc);
 		bottomPanel = new Panel();
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.add(editPane, BorderLayout.NORTH);
@@ -155,18 +158,19 @@ public class Manager_EditRemoveUsers implements ActionListener {
 	}
 
 	/**
-	 * removes a user from the database
+	 * removeMenuItem allows user to remove menu items from the database
 	 * 
-	 * @param id
+	 * @param id       - Menu ID of the item being removed
 	 * @param url
 	 * @param username
 	 * @param password
 	 * @return
 	 */
-	private boolean removeUser(int id, String url, String username, String password) {
+	//GOOD
+	private boolean removeMenuItem(int id, String url, String username, String password) {
 		try {
 			con = (Connection) DriverManager.getConnection(url, password, username);
-			stmt = con.prepareStatement("delete from users where userId = ?;");
+			stmt = con.prepareStatement("delete from orders where OrderID = ?;");
 			stmt.setInt(1, id);
 			int row = stmt.executeUpdate();
 			if (row > 0)
@@ -177,25 +181,24 @@ public class Manager_EditRemoveUsers implements ActionListener {
 	}
 
 	/**
-	 * updates a users credentials in the database
+	 * edit menu allows the user to change the menu item name or menu item
+	 * description
 	 * 
-	 * @param id
-	 * @param url
-	 * @param username
-	 * @param password
-	 * @return
+	 * @param id       - The Menu ID
+	 * @param menuItem - The name of the Menu Item
+	 * @param menuDesc - The description of the Menu Item
+	 * @return The new updated items
 	 */
-	private boolean editUser(int id, String position, String FName, String LName, String Password, String Contact) {
+	//TODO
+	private boolean editOrder(int id, String menuItem, String menuDesc) {
 		try {
+
 			con = (Connection) DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
-			stmt = con.prepareStatement("update users set Position = ?, FirstName = ?, LastName = ?, "
-					+ "Password = ?, Contact = ? where UserId = ?;");
-			stmt.setString(1, position);
-			stmt.setString(2, FName);
-			stmt.setString(3, LName);
-			stmt.setString(4, Password);
-			stmt.setString(5, Contact);
-			stmt.setInt(6, id);
+			stmt = con.prepareStatement("update menuitems set ItemName = ?, ItemDesc = ? where MenuItem = ?;");
+			stmt.setString(1, menuItem);
+			stmt.setString(2, menuDesc);
+			stmt.setInt(3, id);
+
 			int row = stmt.executeUpdate();
 			if (row > 0) {
 				return true;
@@ -206,15 +209,16 @@ public class Manager_EditRemoveUsers implements ActionListener {
 	}
 
 	/**
-	 * Returns a 2D array of all users in the database
+	 * Returns a 2D array of all menu items in the database
 	 * 
 	 * @return
 	 */
-	private String[][] getUsers(String url, String username, String password) {
+	//TODO
+	private String[][] getOrders(String url, String username, String password) {
 		String[][] userArray = null;
 		try {
 			con = DriverManager.getConnection(url, password, username);
-			stmt = con.prepareStatement("select * from users;");
+			stmt = con.prepareStatement("select * from orders;");
 			ResultSet rs = stmt.executeQuery();
 			int count = 0; // finding the number of results found
 			while (rs.next()) {
@@ -237,25 +241,22 @@ public class Manager_EditRemoveUsers implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == "Update") {
-			// make sure a user is selected
-			if (editFName.getText().contentEquals("")) {
-				JOptionPane.showMessageDialog(null, "Please select a user");
-			} else if (editUser(Integer.parseInt(editId.getText()), editPosition.getText(), editFName.getText(),
-					editLName.getText(), editPassword.getText(), editPhone.getText())) {
+			// make sure an item is selected
+			if (editMenuName.getText().contentEquals("")) {
+				JOptionPane.showMessageDialog(null, "Please select an item");
+			} else if (editOrder(Integer.parseInt(editId.getText()), editMenuName.getText(), editMenuDesc.getText())) {
 				model.setValueAt(editId.getText(), selectedRows[0], 0);
-				model.setValueAt(editPosition.getText(), selectedRows[0], 1);
-				model.setValueAt(editFName.getText(), selectedRows[0], 2);
-				model.setValueAt(editLName.getText(), selectedRows[0], 3);
-				model.setValueAt(editPassword.getText(), selectedRows[0], 4);
-				model.setValueAt(editPhone.getText(), selectedRows[0], 5);
+				model.setValueAt(editMenuName.getText(), selectedRows[0], 1);
+				model.setValueAt(editMenuDesc.getText(), selectedRows[0], 2);
+				model.setValueAt(editMenuDesc.getText(), selectedRows[0], 3);
 			}
 		} else if (e.getActionCommand() == "Delete") {
-			//make sure a user is selected
-			if (editFName.getText().contentEquals("")) {
-				JOptionPane.showMessageDialog(null, "Please select a user");
+			// make sure an item is selected
+			if (editMenuName.getText().contentEquals("")) {
+				JOptionPane.showMessageDialog(null, "Please select an item");
 			} else {
 				int id = Integer.parseInt((String) table.getModel().getValueAt(selectedRows[0], 0));
-				if (removeUser(id, MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD)) {
+				if (removeMenuItem(id, MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD)) {
 					model.removeRow(selectedRows[0]);
 				}
 			}
@@ -265,11 +266,9 @@ public class Manager_EditRemoveUsers implements ActionListener {
 	private void updateFields() {
 		try {
 			editId.setText(model.getValueAt(selectedRows[0], 0).toString());
-			editPosition.setText(model.getValueAt(selectedRows[0], 1).toString());
-			editFName.setText(model.getValueAt(selectedRows[0], 2).toString());
-			editLName.setText(model.getValueAt(selectedRows[0], 3).toString());
-			editPassword.setText(model.getValueAt(selectedRows[0], 4).toString());
-			editPhone.setText(model.getValueAt(selectedRows[0], 5).toString());
+			editMenuName.setText(model.getValueAt(selectedRows[0], 1).toString());
+			editMenuDesc.setText(model.getValueAt(selectedRows[0], 2).toString());
+
 		} catch (Exception e) {
 		}
 	}

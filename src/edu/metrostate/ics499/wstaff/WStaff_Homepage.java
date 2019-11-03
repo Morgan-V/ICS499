@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import edu.metrostate.ics499.cstaff.CStaff_AddMenu;
+import edu.metrostate.ics499.cstaff.CStaff_EditRemoveMenu;
 import edu.metrostate.ics499.sharedstaff.Login_Screen;
 import edu.metrostate.ics499.sharedstaff.Schedule;
 
@@ -16,7 +18,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class WStaff_Homepage {
-	private static String[] arguments;
+	public static String[] arguments;
 	private JFrame frame;
 
 	/**
@@ -60,8 +62,15 @@ public class WStaff_Homepage {
 		JButton btnViewTables = new JButton("Manage Orders");
 		btnViewTables.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				//need to figure out manage orders
+				String[] buttons = { "Edit/Remove Orders", "Add an Order"};
+				int n = JOptionPane.showOptionDialog(null, "Please select an action", "",
+				        JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[1]);
+				if (n == 0) {
+					WStaff_EditRemoveOrder.main(arguments);
+				}
+				if (n == 1) {
+					WStaff_AddOrder.main(arguments);
+				}
 			}
 		});
 		btnViewTables.setFont(new Font("Georgia", Font.PLAIN, 35));

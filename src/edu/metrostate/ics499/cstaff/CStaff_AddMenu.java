@@ -30,9 +30,7 @@ import java.awt.event.ActionEvent;
 public class CStaff_AddMenu {
 
 	private JFrame frame;
-	private JTextField itemNumTextField;
 	private JTextField itemNameTextField;
-	private JLabel menuItemLbl;
 	private JLabel lblMenuItemName;
 	private JLabel lblMenuItemDescription;
 	private JLabel successLabel;
@@ -74,7 +72,7 @@ public class CStaff_AddMenu {
 
 		lblMenuItemName = new JLabel("Menu Item Name:");
 		lblMenuItemName.setFont(new Font("Georgia", Font.PLAIN, 17));
-		lblMenuItemName.setBounds(23, 93, 160, 24);
+		lblMenuItemName.setBounds(23, 54, 160, 24);
 		frame.getContentPane().add(lblMenuItemName);
 
 		lblMenuItemDescription = new JLabel("Menu Item Description:");
@@ -82,21 +80,10 @@ public class CStaff_AddMenu {
 		lblMenuItemDescription.setBounds(23, 154, 197, 24);
 		frame.getContentPane().add(lblMenuItemDescription);
 
-		 menuItemLbl = new JLabel("Menu Item Number:");
-		menuItemLbl.setFont(new Font("Georgia", Font.PLAIN, 17));
-		menuItemLbl.setBounds(23, 25, 160, 24);
-		frame.getContentPane().add(menuItemLbl);
-
-		itemNumTextField = new JTextField();
-		itemNumTextField.setFont(new Font("Georgia", Font.PLAIN, 14));
-		itemNumTextField.setBounds(230, 27, 271, 24);
-		frame.getContentPane().add(itemNumTextField);
-		itemNumTextField.setColumns(10);
-
 		itemNameTextField = new JTextField();
 		itemNameTextField.setFont(new Font("Georgia", Font.PLAIN, 14));
 		itemNameTextField.setColumns(10);
-		itemNameTextField.setBounds(230, 95, 271, 24);
+		itemNameTextField.setBounds(230, 56, 271, 24);
 		frame.getContentPane().add(itemNameTextField);
 
 		// TO-DO: CLOSE WINDOW AND LAUNCH HOMEPAGE
@@ -114,13 +101,12 @@ public class CStaff_AddMenu {
 		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(checkConditions()) {
-					String itemNum = itemNumTextField.getText();
 					String itemName = itemNameTextField.getText();
 					String itemDesc = itemDescTextField.getText();
-					createMenuItem(itemNum, itemName, itemDesc);
-					
-						successLabel.setText("Menu Item: " + itemName + " has been successfully added");
-					
+					int itemNum = createMenuItem(itemName, itemDesc);
+					if(itemNum > 0) {
+						successLabel.setText("Menu Item: " + itemName + " (" + itemNum + ") has been successfully added");
+					}					
 				}
 			}
 		});
@@ -129,8 +115,8 @@ public class CStaff_AddMenu {
 		frame.getContentPane().add(btnDone);
 		
 		successLabel = new JLabel("");
-		successLabel.setFont(new Font("Georgia", Font.PLAIN, 10));
-		successLabel.setBounds(39, 243, 447, 13);
+		successLabel.setFont(new Font("Georgia", Font.PLAIN, 16));
+		successLabel.setBounds(23, 243, 496, 13);
 		frame.getContentPane().add(successLabel);
 		
 		itemDescTextField = new JTextField();
@@ -140,20 +126,21 @@ public class CStaff_AddMenu {
 		frame.getContentPane().add(itemDescTextField);
 	}
 	
-	public void createMenuItem(String itemNum, String itemName, String itemDescription) {
+	public int createMenuItem(String itemName, String itemDescription) {
 		try {
 			con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false","root","root");
 			stmt =  con.prepareStatement
-					("insert into menuitems (MenuItem, ItemName, ItemDesc) values ( ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, itemNum);
-			stmt.setString(2,itemName);
-			stmt.setString(3, itemDescription);
+					("insert into menuitems (ItemName, ItemDesc) values ( ?, ?);", Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1,itemName);
+			stmt.setString(2, itemDescription);
 
 			stmt.executeUpdate();
 			ResultSet rs = stmt.getGeneratedKeys();
 			rs.next();  
+			return rs.getInt(1);
 		} catch (SQLException e) {
 		}
+		return -1;
 	}
 	
 	/**
@@ -162,15 +149,7 @@ public class CStaff_AddMenu {
 	 */
 	private boolean checkConditions() {
 		boolean conditionsOk = true;
-		if(itemNumTextField.getText().isBlank()) {
-			successLabel.setForeground(Color.RED);
-			successLabel.setText("Item number cannot be blank");
-			menuItemLbl.setForeground(Color.RED);
-			conditionsOk = false;
-		}else {
-			successLabel.setText("");
-			menuItemLbl.setForeground(Color.BLACK);
-		}
+
 		if(itemNameTextField.getText().isBlank()) {
 			lblMenuItemName.setForeground(Color.RED);
 			successLabel.setText("Item name cannot be blank");

@@ -36,7 +36,7 @@ public class Manager_AddUsers implements ActionListener{
 	private JTextField firstName;
 	private JTextField lastName;
 	private JTextField contactInfo;
-	private JComboBox positionChoice;
+	private JComboBox<?> positionChoice;
 	private String[] positionOptions = 
 		{"Manager", "Wait Staff", "Cook Staff", "Host Staff"};
 	private JPasswordField passwordEntry;
@@ -107,7 +107,7 @@ public class Manager_AddUsers implements ActionListener{
 		positionChoiceLabel = new JLabel("Position");
 		positionChoiceLabel.setBounds(220, 40, 80, 25);
 		frame.getContentPane().add(positionChoiceLabel);
-		positionChoice = new JComboBox(positionOptions);
+		positionChoice = new JComboBox<Object>(positionOptions);
 		positionChoice.setBounds(290, 40, 110, 25);
 		frame.getContentPane().add(positionChoice);
 		
