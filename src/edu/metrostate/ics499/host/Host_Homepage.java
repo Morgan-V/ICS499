@@ -83,6 +83,7 @@ public class Host_Homepage {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Login_Screen.main(null);
+					frame.dispose();
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}

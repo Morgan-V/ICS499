@@ -24,7 +24,7 @@ public class Schedule {
 	private static Connection con;
 	private static PreparedStatement stmt;
 	private String data[][];
-	private JFrame frame;
+	JFrame frame;
 	private JTable table;
 	private static int id;
 

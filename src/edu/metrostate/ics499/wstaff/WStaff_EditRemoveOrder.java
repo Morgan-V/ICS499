@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,10 +24,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
 
 /**
  * 
- * @author Morgan/Ryan This class allows the cook staff to remove and update
+ * @author Morgan This class allows the cook staff to remove and update
  *         menu items in the database
  *
  */
@@ -35,7 +37,8 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 	private final String MYSQL_USERNAME = "root";
 	private final String MYSQL_PASSWORD = "root";
 	private static Connection con;
-	private static PreparedStatement stmt;
+	private static Statement stmt;
+	private static PreparedStatement stmt2;
 	private String data[][];
 	public JFrame frame;
 	private JTable table;
@@ -48,11 +51,11 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 
 	private Panel editPane = new Panel();
 	private JTextField editId;
-	private JTextField editMenuName;
-	private JTextField editMenuDesc;
+	private JTextField editSR;
 
 	DefaultTableModel model;
-	private JTextField textField;
+	private JComboBox<Integer> editTableID = new JComboBox<Integer>();
+	private JComboBox<Integer> editOrder = new JComboBox<Integer>();
 
 	/**
 	 * Launch the application.
@@ -85,6 +88,8 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 500, 300);
+		updateMenuItems();
+		updateTables();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
 		data = getOrders(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
@@ -102,7 +107,6 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 		model.addColumn("Table ID");
 		model.addColumn("Order");
 		model.addColumn("Special Requests");
-
 
 		for (String menu[] : data) {
 			model.addRow(menu); // Adds all menu items returned by the database
@@ -126,20 +130,15 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 		editId.setHorizontalAlignment(SwingConstants.CENTER);
 		editId.setEditable(false);
 		editId.setColumns(11);
-		editMenuName = new JTextField();
-		editMenuName.setHorizontalAlignment(SwingConstants.CENTER);
-		editMenuName.setColumns(11);
-		editMenuDesc = new JTextField();
-		editMenuDesc.setHorizontalAlignment(SwingConstants.CENTER);
-		editMenuDesc.setColumns(11);
+		editSR = new JTextField();
+		editSR.setHorizontalAlignment(SwingConstants.CENTER);
+		editSR.setColumns(11);
 		editPane.add(editId);
-		
-		textField = new JTextField();
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setColumns(11);
-		editPane.add(textField);
-		editPane.add(editMenuName);
-		editPane.add(editMenuDesc);
+
+		editPane.add(editTableID);
+
+		editPane.add(editOrder);
+		editPane.add(editSR);
 		bottomPanel = new Panel();
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.add(editPane, BorderLayout.NORTH);
@@ -156,6 +155,36 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 		frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 
 	}
+	//put table options into the JCombBox
+	private void updateTables() {
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false", "root", "root");
+			stmt = con.createStatement();
+			String s = "select * from tables;";
+			ResultSet rs2 = stmt.executeQuery(s);
+			while (rs2.next()) {
+				int tableID = rs2.getInt("TableID");
+				editTableID.addItem(tableID);
+			}
+		} catch (SQLException e) {
+		}
+	}
+
+	//put menu options into the JCombBox
+
+	private void updateMenuItems() {
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false", "root", "root");
+			stmt = con.createStatement();
+			String s = "select * from menuitems;";
+			ResultSet rs2 = stmt.executeQuery(s);
+			while (rs2.next()) {
+				int itemName = rs2.getInt("MenuItem");
+				editOrder.addItem(itemName);
+			}
+		} catch (SQLException e) {
+		}
+	}
 
 	/**
 	 * removeMenuItem allows user to remove menu items from the database
@@ -166,13 +195,12 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 	 * @param password
 	 * @return
 	 */
-	//GOOD
 	private boolean removeMenuItem(int id, String url, String username, String password) {
 		try {
 			con = (Connection) DriverManager.getConnection(url, password, username);
-			stmt = con.prepareStatement("delete from orders where OrderID = ?;");
-			stmt.setInt(1, id);
-			int row = stmt.executeUpdate();
+			stmt2 = con.prepareStatement("delete from orders where OrderID = ?;");
+			stmt2.setInt(1, id);
+			int row = stmt2.executeUpdate();
 			if (row > 0)
 				return true;
 		} catch (SQLException e) {
@@ -181,25 +209,23 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 	}
 
 	/**
-	 * edit menu allows the user to change the menu item name or menu item
-	 * description
-	 * 
-	 * @param id       - The Menu ID
-	 * @param menuItem - The name of the Menu Item
-	 * @param menuDesc - The description of the Menu Item
-	 * @return The new updated items
+	 * Allows user to edit existing orders
+	 * @param orderID - the ID of the order being changed (not an editable field)
+	 * @param tableID - the ID of the table being changed
+	 * @param menuItem
+	 * @param specialRequest - The special requests for an order
+	 * @return - returns 1 if the request is successful, 0 if the request is bad
 	 */
-	//TODO
-	private boolean editOrder(int id, String menuItem, String menuDesc) {
+	private boolean editOrder(int orderID, Object tableID, Object menuItem, String specialRequest) {
 		try {
-
 			con = (Connection) DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
-			stmt = con.prepareStatement("update menuitems set ItemName = ?, ItemDesc = ? where MenuItem = ?;");
-			stmt.setString(1, menuItem);
-			stmt.setString(2, menuDesc);
-			stmt.setInt(3, id);
-
-			int row = stmt.executeUpdate();
+			stmt2 = con.prepareStatement(
+					"update orders set MenuItem = ?, TableID = ?, SpecialRequest = ? where OrderID = ?;");
+			stmt2.setInt(1, (int) menuItem);
+			stmt2.setInt(2, (int) tableID);
+			stmt2.setString(3, specialRequest);
+			stmt2.setInt(4, orderID);
+			int row = stmt2.executeUpdate();
 			if (row > 0) {
 				return true;
 			}
@@ -213,13 +239,13 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 	 * 
 	 * @return
 	 */
-	//TODO
+	// TODO
 	private String[][] getOrders(String url, String username, String password) {
 		String[][] userArray = null;
 		try {
 			con = DriverManager.getConnection(url, password, username);
-			stmt = con.prepareStatement("select * from orders;");
-			ResultSet rs = stmt.executeQuery();
+			stmt2 = con.prepareStatement("select * from orders;");
+			ResultSet rs = stmt2.executeQuery();
 			int count = 0; // finding the number of results found
 			while (rs.next()) {
 				count++;
@@ -237,37 +263,45 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 		}
 		return userArray;
 	}
-
+/**
+ * Update will take inputs from user and update database
+ * Delete will remove order from system
+ */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == "Update") {
 			// make sure an item is selected
-			if (editMenuName.getText().contentEquals("")) {
+			if (editId.getText().contentEquals("")) {
 				JOptionPane.showMessageDialog(null, "Please select an item");
-			} else if (editOrder(Integer.parseInt(editId.getText()), editMenuName.getText(), editMenuDesc.getText())) {
+			} else if (editOrder(Integer.parseInt(editId.getText()), editTableID.getSelectedItem(),
+					editOrder.getSelectedItem(), editSR.getText())) {
 				model.setValueAt(editId.getText(), selectedRows[0], 0);
-				model.setValueAt(editMenuName.getText(), selectedRows[0], 1);
-				model.setValueAt(editMenuDesc.getText(), selectedRows[0], 2);
-				model.setValueAt(editMenuDesc.getText(), selectedRows[0], 3);
+				model.setValueAt(editTableID.getSelectedItem(), selectedRows[0], 1);
+				model.setValueAt(editOrder.getSelectedItem(), selectedRows[0], 2);
+				model.setValueAt(editSR.getText(), selectedRows[0], 3);
 			}
-		} else if (e.getActionCommand() == "Delete") {
-			// make sure an item is selected
-			if (editMenuName.getText().contentEquals("")) {
-				JOptionPane.showMessageDialog(null, "Please select an item");
-			} else {
-				int id = Integer.parseInt((String) table.getModel().getValueAt(selectedRows[0], 0));
-				if (removeMenuItem(id, MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD)) {
-					model.removeRow(selectedRows[0]);
+			} else if (e.getActionCommand() == "Delete") {
+				// make sure an item is selected
+				if (editId.getText().contentEquals("")) {
+					JOptionPane.showMessageDialog(null, "Please select an item");
+				} else {
+					int id = Integer.parseInt((String) table.getModel().getValueAt(selectedRows[0], 0));
+					if (removeMenuItem(id, MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD)) {
+						model.removeRow(selectedRows[0]);
+					}
 				}
 			}
-		}
+		
 	}
-
+/**
+ * updates editable fields for the user
+ */
 	private void updateFields() {
 		try {
 			editId.setText(model.getValueAt(selectedRows[0], 0).toString());
-			editMenuName.setText(model.getValueAt(selectedRows[0], 1).toString());
-			editMenuDesc.setText(model.getValueAt(selectedRows[0], 2).toString());
+			editTableID.setToolTipText(model.getValueAt(selectedRows[0], 1).toString());
+			editOrder.setToolTipText(model.getValueAt(selectedRows[0], 2).toString());
+			editSR.setText(model.getValueAt(selectedRows[0], 3).toString());
 
 		} catch (Exception e) {
 		}
