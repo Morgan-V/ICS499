@@ -38,6 +38,7 @@ create table Orders(
 OrderID int auto_increment,
 MenuItem int,
 TableID int,
+SpecialRequest varchar(200),
 primary key(OrderID),
 foreign key(TableID) References Tables(TableId),
 foreign key(MenuItem) References MenuItems(MenuItem));
