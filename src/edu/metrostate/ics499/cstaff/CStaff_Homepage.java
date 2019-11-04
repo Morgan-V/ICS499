@@ -119,7 +119,7 @@ public class CStaff_Homepage {
 		JButton btnManageMenu = new JButton("Manage Menu");
 		btnManageMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] buttons = { "Edit/Remove Menu Items", "Add Menu Items" };
+				String[] buttons = { "Edit/Remove Menu Items", "Add Menu Items", "View Menu Items" };
 				int n = JOptionPane.showOptionDialog(null, "Please select an action", "", JOptionPane.WARNING_MESSAGE,
 						0, null, buttons, buttons[1]);
 				if (n == 0) {
@@ -127,6 +127,9 @@ public class CStaff_Homepage {
 				}
 				if (n == 1) {
 					CStaff_AddMenu.main(null);
+				}
+				if (n == 2) {
+				CStaff_ViewMenu.main(null);
 				}
 			}
 		});
