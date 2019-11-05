@@ -37,11 +37,13 @@ public class CStaff_AddMenu {
 	private static Connection con;
 	private static PreparedStatement stmt;
 	private JTextField itemDescTextField;
+	private static String[] arguments;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		arguments = args;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -86,11 +88,11 @@ public class CStaff_AddMenu {
 		itemNameTextField.setBounds(230, 56, 271, 24);
 		frame.getContentPane().add(itemNameTextField);
 
-		// TO-DO: CLOSE WINDOW AND LAUNCH HOMEPAGE
 		JButton btnNewButton = new JButton("Back");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CStaff_Homepage.main(null);
+				CStaff_Homepage.main(arguments);
+				frame.dispose();
 			}
 		});
 		btnNewButton.setFont(new Font("Georgia", Font.PLAIN, 10));
@@ -125,7 +127,12 @@ public class CStaff_AddMenu {
 		itemDescTextField.setBounds(230, 156, 271, 24);
 		frame.getContentPane().add(itemDescTextField);
 	}
-	
+	/**
+	 * A class to add a menu item into the database. The ID is automatically added in.
+	 * @param itemName - Name of the menu item being added
+	 * @param itemDescription - A description of the item being added
+	 * @return 
+	 */
 	public int createMenuItem(String itemName, String itemDescription) {
 		try {
 			con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false","root","root");

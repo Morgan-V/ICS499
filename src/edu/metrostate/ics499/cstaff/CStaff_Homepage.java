@@ -19,6 +19,11 @@ import edu.metrostate.ics499.sharedstaff.Schedule;
 import edu.metrostate.ics499.wstaff.WStaff_AddOrder;
 import edu.metrostate.ics499.wstaff.WStaff_EditRemoveOrder;
 
+/**
+ * 
+ * @author Morgan
+ * The homepage for the Cook Staff
+ */
 public class CStaff_Homepage {
 	private static String[] arguments;
 	private JFrame frame;
@@ -116,6 +121,7 @@ public class CStaff_Homepage {
 		button_2.setBounds(681, 402, 132, 34);
 		frame.getContentPane().add(button_2);
 
+		//The options for what cook staff can do
 		JButton btnManageMenu = new JButton("Manage Menu");
 		btnManageMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,7 +135,7 @@ public class CStaff_Homepage {
 					CStaff_AddMenu.main(null);
 				}
 				if (n == 2) {
-				CStaff_ViewMenu.main(null);
+				CStaff_ViewMenu.main(arguments);
 				}
 			}
 		});

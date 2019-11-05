@@ -1,23 +1,22 @@
 package edu.metrostate.ics499.cstaff;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-
-import com.mysql.jdbc.Statement;
-
-import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.awt.event.ActionEvent;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import com.mysql.jdbc.Statement;
+
 import net.proteanit.sql.DbUtils;
 /*
  * author @Rose
@@ -30,11 +29,14 @@ public class CStaff_ViewMenu {
 	private static Connection con;
 	private static Statement stmt;
 	private static JTable displayMenuTable;
+	private static String[] arguments;
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		arguments = args;
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -69,12 +71,12 @@ public class CStaff_ViewMenu {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 819, 491);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CStaff_Homepage.main(null);
+				frame.dispose();
 			}
 		});
 		btnBack.setFont(new Font("Georgia", Font.BOLD, 16));
