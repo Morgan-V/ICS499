@@ -155,7 +155,9 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 		frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 
 	}
-	//put table options into the JCombBox
+	/**
+	 * method used to populate table options into JComboBox
+	 */
 	private void updateTables() {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false", "root", "root");
@@ -170,8 +172,9 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 		}
 	}
 
-	//put menu options into the JCombBox
-
+	/**
+	 * method used to populate menu options into JComboBox
+	 */
 	private void updateMenuItems() {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false", "root", "root");

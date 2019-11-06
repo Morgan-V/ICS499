@@ -21,9 +21,11 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
-/*
- * Author: Morgan
- * Wait Staff window to add orders 
+/**
+ * 
+ * @author Morgan
+ * Class to add an order into the system
+ *
  */
 public class WStaff_AddOrder {
 
@@ -83,7 +85,6 @@ public class WStaff_AddOrder {
 		lblMenuItemDescription.setBounds(23, 154, 197, 24);
 		frame.getContentPane().add(lblMenuItemDescription);
 
-		// TO-DO: CLOSE WINDOW AND LAUNCH HOMEPAGE
 		JButton btnNewButton = new JButton("Done");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -147,7 +148,9 @@ public class WStaff_AddOrder {
 
 
 	}
-
+/**
+ * method called to populate the menu items into the JComboBox
+ */
 	private void updateMenuItems() {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false", "root", "root");
@@ -161,7 +164,9 @@ public class WStaff_AddOrder {
 		} catch (SQLException e) {
 		}
 	}
-
+/**
+ * method called to populate the tables into the JComboBox
+ */
 	private void updateTables() {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false", "root", "root");
@@ -175,7 +180,12 @@ public class WStaff_AddOrder {
 		} catch (SQLException e) {
 		}
 	}
-
+/**
+ * Method used to create orders
+ * @param menuItem - The number of the menu item to add
+ * @param table - The table the order is associated with
+ * @param sr - any special requests for the order
+ */
 	public void createOrder(int menuItem, int table, String sr) {
 		try {
 			con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false", "root",

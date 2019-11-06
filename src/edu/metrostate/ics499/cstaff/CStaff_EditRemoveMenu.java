@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * 
- * @author Morgan/Ryan This class allows the cook staff to remove and update
+ * @author Morgan This class allows the cook staff to remove and update
  *         menu items in the database
  *
  */
