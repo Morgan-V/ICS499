@@ -181,7 +181,7 @@ public class Login_Screen {
 							CStaff_Homepage.main(arguments);
 							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 						}
-						if (position.contentEquals("Host")) {
+						if (position.contentEquals("Host Staff")) {
 							Host_Homepage.main(arguments);
 							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 						}
