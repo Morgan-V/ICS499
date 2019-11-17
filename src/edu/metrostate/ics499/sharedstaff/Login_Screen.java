@@ -181,8 +181,33 @@ public class Login_Screen {
 					if (position.contentEquals("host")) {
 						Host_Homepage.main(null);
 					}
+<<<<<<< Updated upstream
 					if (position.contentEquals("wstaff")) {
 						WStaff_Homepage.main(null);
+=======
+					// if the password is correct, direct the user to the correct homepage. If
+					// password is incorrect, show error message
+					String[] arguments = { userID.toString() };
+					if (userentered_pword.equals(retrievedPword)) {
+						if (position.contentEquals("manager") || position.contentEquals("Manager")) {
+							Manager_Homepage.main(arguments);
+							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+						}
+						if (position.contentEquals("Cook Staff")) {
+							CStaff_Homepage.main(arguments);
+							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+						}
+						if (position.contentEquals("Host Staff")) {
+							Host_Homepage.main(arguments);
+							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+						}
+						if (position.contentEquals("Wait Staff")) {
+							WStaff_Homepage.main(arguments);
+							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Password is incorrect!");
+>>>>>>> Stashed changes
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Password is incorrect!");
