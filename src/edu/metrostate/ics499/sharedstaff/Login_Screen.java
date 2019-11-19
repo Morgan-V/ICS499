@@ -181,7 +181,7 @@ public class Login_Screen {
 				}
 			}
 		});
-		btnLogin.setBounds(408, 325, 372, 41);
+		btnLogin.setBounds(380, 324, 417, 41);
 		frame.getContentPane().add(btnLogin);
 
 		// button to confirm that user would like to exit
@@ -198,7 +198,7 @@ public class Login_Screen {
 				}
 			}
 		});
-		btnExit.setBounds(623, 418, 209, 41);
+		btnExit.setBounds(609, 418, 188, 41);
 		frame.getContentPane().add(btnExit);
 
 		txtfield_UserID = new JTextField();
@@ -222,7 +222,7 @@ public class Login_Screen {
 		
 				// Button to clear the text in the userid and password field
 				JButton btnResetFields = new JButton("Reset Fields");
-				btnResetFields.setBounds(350, 418, 209, 41);
+				btnResetFields.setBounds(380, 418, 188, 41);
 				frame.getContentPane().add(btnResetFields);
 				btnResetFields.setBackground(new Color(169, 169, 169));
 				btnResetFields.setForeground(new Color(47, 79, 79));
