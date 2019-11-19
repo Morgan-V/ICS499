@@ -29,6 +29,11 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.Font;
 import javax.swing.JSeparator;
+import javax.swing.JPanel;
+import java.awt.Color;
+import javax.swing.ImageIcon;
+import java.awt.SystemColor;
+import javax.swing.JTextArea;
 
 public class Login_Screen {
 	// Information to reach the database
@@ -62,6 +67,7 @@ public class Login_Screen {
 			public void run() {
 				try {
 					Login_Screen window = new Login_Screen();
+					window.frame.setUndecorated(true);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -82,35 +88,13 @@ public class Login_Screen {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 863, 516);
+		frame.getContentPane().setBackground(new Color(47, 79, 79));
+		frame.setBackground(new Color(70, 130, 180));
+		frame.getContentPane().setForeground(new Color(250, 235, 215));
+		frame.setBounds(100, 100, 856, 496);
+		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
-		JLabel lblUserLogin = new JLabel("User Login");
-		lblUserLogin.setFont(new Font("Verdana", Font.PLAIN, 60));
-		lblUserLogin.setBounds(259, 33, 342, 74);
-		frame.getContentPane().add(lblUserLogin);
-
-		JLabel lblUserID = new JLabel("User ID");
-		lblUserID.setFont(new Font("Georgia", Font.PLAIN, 35));
-		lblUserID.setBounds(178, 161, 133, 41);
-		frame.getContentPane().add(lblUserID);
-
-		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Georgia", Font.PLAIN, 35));
-		lblPassword.setBounds(149, 242, 183, 50);
-		frame.getContentPane().add(lblPassword);
-
-		txtfield_UserID = new JTextField();
-		txtfield_UserID.setFont(new Font("Georgia", Font.PLAIN, 30));
-		txtfield_UserID.setBounds(380, 161, 342, 41);
-		frame.getContentPane().add(txtfield_UserID);
-		txtfield_UserID.setColumns(10);
-
-		pwordfield_Password = new JPasswordField();
-		pwordfield_Password.setFont(new Font("Georgia", Font.PLAIN, 30));
-		pwordfield_Password.setBounds(380, 249, 342, 41);
-		frame.getContentPane().add(pwordfield_Password);
 
 		/**
 		 * Login button will check the userID the user entered against what is in the
@@ -119,7 +103,9 @@ public class Login_Screen {
 		 **/
 
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setFont(new Font("Georgia", Font.PLAIN, 35));
+		btnLogin.setForeground(new Color(47, 79, 79));
+		btnLogin.setBackground(new Color(143, 188, 143));
+		btnLogin.setFont(new Font("Arial", Font.PLAIN, 35));
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// may need to refactor - bad practice to save passwords in system
@@ -181,7 +167,7 @@ public class Login_Screen {
 							CStaff_Homepage.main(arguments);
 							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 						}
-						if (position.contentEquals("Host")) {
+						if (position.contentEquals("Host Staff")) {
 							Host_Homepage.main(arguments);
 							frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 						}
@@ -195,24 +181,14 @@ public class Login_Screen {
 				}
 			}
 		});
-		btnLogin.setBounds(45, 399, 169, 50);
+		btnLogin.setBounds(408, 325, 372, 41);
 		frame.getContentPane().add(btnLogin);
-
-		// Button to clear the text in the userid and password field
-		JButton btnResetFields = new JButton("Reset Fields");
-		btnResetFields.setFont(new Font("Georgia", Font.PLAIN, 35));
-		btnResetFields.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				txtfield_UserID.setText(null);
-				pwordfield_Password.setText(null);
-			}
-		});
-		btnResetFields.setBounds(316, 399, 240, 50);
-		frame.getContentPane().add(btnResetFields);
 
 		// button to confirm that user would like to exit
 		JButton btnExit = new JButton("Exit");
-		btnExit.setFont(new Font("Georgia", Font.PLAIN, 35));
+		btnExit.setForeground(new Color(47, 79, 79));
+		btnExit.setBackground(new Color(169, 169, 169));
+		btnExit.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame exitConfirm = new JFrame("exit");
@@ -222,11 +198,63 @@ public class Login_Screen {
 				}
 			}
 		});
-		btnExit.setBounds(662, 399, 128, 50);
+		btnExit.setBounds(623, 418, 209, 41);
 		frame.getContentPane().add(btnExit);
 
-		JSeparator separator = new JSeparator();
-		separator.setBounds(93, 137, 669, 14);
-		frame.getContentPane().add(separator);
+		txtfield_UserID = new JTextField();
+		txtfield_UserID.setForeground(new Color(47, 79, 79));
+		txtfield_UserID.setBackground(new Color(169, 169, 169));
+		txtfield_UserID.setBounds(482, 177, 333, 30);
+		frame.getContentPane().add(txtfield_UserID);
+		txtfield_UserID.setFont(new Font("Arial", Font.PLAIN, 30));
+		txtfield_UserID.setColumns(10);
+
+		pwordfield_Password = new JPasswordField();
+		pwordfield_Password.setForeground(new Color(47, 79, 79));
+		pwordfield_Password.setBackground(new Color(169, 169, 169));
+		pwordfield_Password.setBounds(482, 243, 333, 30);
+		frame.getContentPane().add(pwordfield_Password);
+		pwordfield_Password.setFont(new Font("Arial", Font.PLAIN, 30));
+
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(107, 339, 46, 13);
+		frame.getContentPane().add(lblNewLabel);
+		
+				// Button to clear the text in the userid and password field
+				JButton btnResetFields = new JButton("Reset Fields");
+				btnResetFields.setBounds(350, 418, 209, 41);
+				frame.getContentPane().add(btnResetFields);
+				btnResetFields.setBackground(new Color(169, 169, 169));
+				btnResetFields.setForeground(new Color(47, 79, 79));
+				btnResetFields.setFont(new Font("Arial", Font.PLAIN, 25));
+				
+				JLabel lblNewLabel_1 = new JLabel("");
+				lblNewLabel_1.setIcon(new ImageIcon(Login_Screen.class.getResource("/img/login.jpg")));
+				lblNewLabel_1.setBounds(0, -17, 333, 533);
+				frame.getContentPane().add(lblNewLabel_1);
+				
+				JLabel lblNewLabel_2 = new JLabel("RMS Login");
+				lblNewLabel_2.setFont(new Font("Georgia", Font.PLAIN, 55));
+				lblNewLabel_2.setForeground(new Color(143, 188, 143));
+				lblNewLabel_2.setBounds(446, 10, 292, 71);
+				frame.getContentPane().add(lblNewLabel_2);
+				
+				JLabel lblUsername = new JLabel("Username:");
+				lblUsername.setForeground(new Color(211, 211, 211));
+				lblUsername.setFont(new Font("Georgia", Font.ITALIC, 19));
+				lblUsername.setBounds(350, 162, 122, 56);
+				frame.getContentPane().add(lblUsername);
+				
+				JLabel lblPassword = new JLabel("Password:");
+				lblPassword.setForeground(new Color(211, 211, 211));
+				lblPassword.setFont(new Font("Georgia", Font.ITALIC, 19));
+				lblPassword.setBounds(350, 228, 122, 56);
+				frame.getContentPane().add(lblPassword);
+		btnResetFields.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtfield_UserID.setText(null);
+				pwordfield_Password.setText(null);
+			}
+		});
 	}
 }
