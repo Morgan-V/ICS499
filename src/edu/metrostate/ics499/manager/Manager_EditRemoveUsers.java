@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
+import java.awt.Font;
 
 public class Manager_EditRemoveUsers implements ActionListener {
 	private final String MYSQL_URL = "jdbc:mysql://localhost:3306/rms?useSSL=false";
@@ -116,20 +118,32 @@ public class Manager_EditRemoveUsers implements ActionListener {
 		pane.setBounds(0, 0, 435, 200);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		frame.getContentPane().add(pane);
+		editPane.setBackground(new Color(169, 169, 169));
 
 		editPane.setLayout(new FlowLayout());
 		editId = new JTextField();
+		editId.setFont(new Font("Arial", Font.BOLD, 10));
 		editId.setEditable(false);
 		editId.setColumns(7);
 		editPosition = new JTextField();
+		editPosition.setForeground(new Color(47, 79, 79));
+		editPosition.setFont(new Font("Arial", Font.BOLD, 10));
 		editPosition.setColumns(7);
 		editFName = new JTextField();
+		editFName.setForeground(new Color(47, 79, 79));
+		editFName.setFont(new Font("Arial", Font.BOLD, 10));
 		editFName.setColumns(7);
 		editLName = new JTextField();
+		editLName.setForeground(new Color(47, 79, 79));
+		editLName.setFont(new Font("Arial", Font.BOLD, 10));
 		editLName.setColumns(7);
 		editPassword = new JTextField();
+		editPassword.setForeground(new Color(47, 79, 79));
+		editPassword.setFont(new Font("Arial", Font.BOLD, 10));
 		editPassword.setColumns(7);
 		editPhone = new JTextField();
+		editPhone.setForeground(new Color(47, 79, 79));
+		editPhone.setFont(new Font("Arial", Font.BOLD, 10));
 		editPhone.setColumns(7);
 		editPane.add(editId);
 		editPane.add(editPosition);
@@ -140,11 +154,18 @@ public class Manager_EditRemoveUsers implements ActionListener {
 		bottomPanel = new Panel();
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.add(editPane, BorderLayout.NORTH);
+		buttonPane.setBackground(new Color(47, 79, 79));
 
 		buttonPane.setLayout(new FlowLayout());
 		updateButton = new JButton("Update");
+		updateButton.setBackground(new Color(143, 188, 143));
+		updateButton.setForeground(new Color(47, 79, 79));
+		updateButton.setFont(new Font("Arial", Font.BOLD, 10));
 		updateButton.addActionListener(this);
 		deleteButton = new JButton("Delete");
+		deleteButton.setBackground(new Color(143, 188, 143));
+		deleteButton.setForeground(new Color(47, 79, 79));
+		deleteButton.setFont(new Font("Arial", Font.BOLD, 10));
 		deleteButton.addActionListener(this);
 		buttonPane.add(updateButton);
 		buttonPane.add(deleteButton);

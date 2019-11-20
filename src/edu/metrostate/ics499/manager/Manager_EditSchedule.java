@@ -24,6 +24,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.mysql.jdbc.Statement;
+import java.awt.Color;
+import java.awt.Font;
 
 public class Manager_EditSchedule implements ActionListener {
 	private final String MYSQL_URL = "jdbc:mysql://localhost:3306/rms?useSSL=false";
@@ -119,21 +121,34 @@ public class Manager_EditSchedule implements ActionListener {
 		pane.setLayout(new ScrollPaneLayout());
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		frame.getContentPane().add(pane, BorderLayout.CENTER);
+		editPane.setBackground(new Color(169, 169, 169));
 
 		editPane.setLayout(new FlowLayout());
 		editId = new JTextField();
+		editId.setForeground(new Color(47, 79, 79));
+		editId.setFont(new Font("Arial", Font.BOLD, 10));
 		editId.setEditable(false);
 		editId.setColumns(7);
 		editUserId = new JTextField();
+		editUserId.setForeground(new Color(47, 79, 79));
+		editUserId.setFont(new Font("Arial", Font.BOLD, 10));
 		editUserId.setColumns(7);
 		editName = new JTextField();
+		editName.setForeground(new Color(47, 79, 79));
+		editName.setFont(new Font("Arial", Font.BOLD, 10));
 		editName.setColumns(7);
 		editName.setEditable(false);
 		editDate = new JTextField();
+		editDate.setForeground(new Color(47, 79, 79));
+		editDate.setFont(new Font("Arial", Font.BOLD, 10));
 		editDate.setColumns(7);
 		editStart = new JTextField();
+		editStart.setForeground(new Color(47, 79, 79));
+		editStart.setFont(new Font("Arial", Font.BOLD, 10));
 		editStart.setColumns(7);
 		editEnd = new JTextField();
+		editEnd.setForeground(new Color(47, 79, 79));
+		editEnd.setFont(new Font("Arial", Font.BOLD, 10));
 		editEnd.setColumns(7);
 		editPane.add(editId);
 		editPane.add(editUserId);
@@ -143,13 +158,24 @@ public class Manager_EditSchedule implements ActionListener {
 		editPane.add(editEnd);
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.add(editPane, BorderLayout.NORTH);
+		buttonPane.setBackground(new Color(47, 79, 79));
+		buttonPane.setForeground(new Color(255, 255, 255));
 
 		buttonPane.setLayout(new FlowLayout());
 		updateButton = new JButton("Update");
+		updateButton.setBackground(new Color(143, 188, 143));
+		updateButton.setFont(new Font("Arial", Font.BOLD, 10));
+		updateButton.setForeground(new Color(47, 79, 79));
 		updateButton.addActionListener(this);
 		deleteButton = new JButton("Delete");
+		deleteButton.setBackground(new Color(143, 188, 143));
+		deleteButton.setFont(new Font("Arial", Font.BOLD, 10));
+		deleteButton.setForeground(new Color(47, 79, 79));
 		deleteButton.addActionListener(this);
 		addButton = new JButton("Add New");
+		addButton.setBackground(new Color(143, 188, 143));
+		addButton.setFont(new Font("Arial", Font.BOLD, 10));
+		addButton.setForeground(new Color(47, 79, 79));
 		addButton.addActionListener(this);
 		buttonPane.add(updateButton);
 		buttonPane.add(deleteButton);
@@ -164,8 +190,7 @@ public class Manager_EditSchedule implements ActionListener {
 	 */
 	private boolean removeSchedule(int id) {
 		try {
-			con = (Connection) DriverManager
-					.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
+			con = (Connection) DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 			stmt = con.prepareStatement("delete from schedules where scheduleId = ?;");
 			stmt.setInt(1, id);
 			int row = stmt.executeUpdate();
@@ -184,10 +209,8 @@ public class Manager_EditSchedule implements ActionListener {
 	 */
 	private String IdToName(int id) {
 		try {
-			con = (Connection) DriverManager
-					.getConnection(MYSQL_URL, MYSQL_USERNAME,MYSQL_PASSWORD);
-			stmt = con.prepareStatement("select FirstName, LastName from users "
-					+ "where UserID =?;",
+			con = (Connection) DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
+			stmt = con.prepareStatement("select FirstName, LastName from users " + "where UserID =?;",
 					Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
@@ -218,14 +241,11 @@ public class Manager_EditSchedule implements ActionListener {
 	 * @param EndTime
 	 * @return
 	 */
-	private boolean editSchedule(int ScheduleId, int UserId, String date, 
-			String startTime, String endTime) {
+	private boolean editSchedule(int ScheduleId, int UserId, String date, String startTime, String endTime) {
 		try {
-			con = (Connection) DriverManager
-					.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
+			con = (Connection) DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 			stmt = con.prepareStatement(
-					"update schedules set UserID = ?, date = ?, startTime = ?, " 
-							+ "endTime = ? where ScheduleId = ?;");
+					"update schedules set UserID = ?, date = ?, startTime = ?, " + "endTime = ? where ScheduleId = ?;");
 			stmt.setInt(1, UserId);
 			stmt.setString(2, date);
 			if (date.compareTo("") == 0) {
@@ -253,8 +273,7 @@ public class Manager_EditSchedule implements ActionListener {
 	private String[][] getSchedules() {
 		String[][] userArray = null;
 		try {
-			con = DriverManager
-					.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
+			con = DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 			stmt = con.prepareStatement("select * from schedules;");
 			ResultSet rs = stmt.executeQuery();
 			int count = 0; // finding the number of results found
@@ -270,8 +289,7 @@ public class Manager_EditSchedule implements ActionListener {
 				for (int j = 0; j < rs.getMetaData().getColumnCount() + 1; j++) {
 					// users name is found and placed in index 2
 					if (j == 2) {
-						userArray[i][j] = 
-								IdToName(Integer.parseInt(userArray[i][j - 1]));
+						userArray[i][j] = IdToName(Integer.parseInt(userArray[i][j - 1]));
 					} else {
 						userArray[i][j] = rs.getString(currentColumn + 1);
 						currentColumn++;
@@ -295,15 +313,12 @@ public class Manager_EditSchedule implements ActionListener {
 	 * @param EndTime
 	 * @return
 	 */
-	public int createSchedule(int UserID, String date,
-			String StartTime, String EndTime) {
+	public int createSchedule(int UserID, String date, String StartTime, String EndTime) {
 		try {
 			// ScheduleID,UserID,Date,StartTime,EndTime
-			con = (Connection) DriverManager
-					.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
+			con = (Connection) DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 			stmt = con.prepareStatement(
-					"insert into schedules (UserId,Date,StartTime,EndTime)" 
-							+ " values ( ?, ?, ?, ?);",
+					"insert into schedules (UserId,Date,StartTime,EndTime)" + " values ( ?, ?, ?, ?);",
 					Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, UserID);
 			stmt.setString(2, date);
@@ -322,27 +337,31 @@ public class Manager_EditSchedule implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == "Update") {
-			if (editSchedule(
-					Integer.parseInt(editId.getText()), 
-					Integer.parseInt(editUserId.getText()),
-					editDate.getText(),
-					editStart.getText(),
-					editEnd.getText())) {
-				
-				model.setValueAt(editId.getText(), selectedRows[0], 0);
-				model.setValueAt(editUserId.getText(), selectedRows[0], 1);
-				model.setValueAt(IdToName
-						(Integer.parseInt(editUserId.getText())),selectedRows[0], 2);
-				editName.setText(IdToName(Integer.parseInt(editUserId.getText())));
-				model.setValueAt(editDate.getText(), selectedRows[0], 3);
-				model.setValueAt(editStart.getText(), selectedRows[0], 4);
-				model.setValueAt(editEnd.getText(), selectedRows[0], 5);
+			if (selectedRows == null) {
+			} else {
+				if (table.getModel().getValueAt(selectedRows[0], 1) == "") {
+				} else {
+					if (editSchedule(Integer.parseInt(editId.getText()), Integer.parseInt(editUserId.getText()),
+							editDate.getText(), editStart.getText(), editEnd.getText())) {
+
+						model.setValueAt(editId.getText(), selectedRows[0], 0);
+						model.setValueAt(editUserId.getText(), selectedRows[0], 1);
+						model.setValueAt(IdToName(Integer.parseInt(editUserId.getText())), selectedRows[0], 2);
+						editName.setText(IdToName(Integer.parseInt(editUserId.getText())));
+						model.setValueAt(editDate.getText(), selectedRows[0], 3);
+						model.setValueAt(editStart.getText(), selectedRows[0], 4);
+						model.setValueAt(editEnd.getText(), selectedRows[0], 5);
+					}
+				}
 			}
 		} else if (e.getActionCommand() == "Delete") {
-			int id = Integer.parseInt((String) table.getModel()
-					.getValueAt(selectedRows[0], 0));
-			if (removeSchedule(id)) {
-				model.removeRow(selectedRows[0]);
+			if (selectedRows == null) {
+			} else {
+				int id = Integer.parseInt((String) table.getModel().getValueAt(selectedRows[0], 0));
+
+				if (removeSchedule(id)) {
+					model.removeRow(selectedRows[0]);
+				}
 			}
 		} else if (e.getActionCommand() == "Add New") {
 			// Creates an empty record in the database
