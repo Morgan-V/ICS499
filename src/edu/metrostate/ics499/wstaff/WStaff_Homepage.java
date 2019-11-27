@@ -6,9 +6,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import edu.metrostate.ics499.cstaff.CStaff_AddMenu;
-import edu.metrostate.ics499.cstaff.CStaff_EditRemoveMenu;
 import edu.metrostate.ics499.sharedstaff.Login_Screen;
 import edu.metrostate.ics499.sharedstaff.Orders;
 import edu.metrostate.ics499.sharedstaff.Schedule;
@@ -121,5 +118,4 @@ public class WStaff_Homepage {
 		button_2.setBounds(681, 402, 132, 34);
 		frame.getContentPane().add(button_2);
 	}
-
 }

@@ -31,6 +31,9 @@ ALTER TABLE MenuItems AUTO_INCREMENT = 1;
 
 Create table Tables(
 TableID int auto_increment,
+TableType Varchar(20),
+Occupied boolean,
+Capacity int,
 Primary key(TableID));
 ALTER TABLE Tables AUTO_INCREMENT = 1;
 

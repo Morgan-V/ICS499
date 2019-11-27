@@ -10,26 +10,29 @@ import com.mysql.jdbc.Statement;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
 public class Manager_AddTables {
-
+	private String MYSQL_URL;
+	private String MYSQL_USERNAME;
+	private String MYSQL_PASSWORD;
 	private JFrame frame;
-	private JLabel lblTableId; 
 	private JLabel lblTableType;
-	private JLabel lblTableOccupancy;
 	private JLabel lblTableCapacity;
 	private JLabel SuccessAddLabel;
-	private JTextField tableIDTextField;
 	private JTextField tableTypeTextField;
 	private JTextField tableCapacityTextField;
-	private JTextField tableOccupancyTextField;
 
 	private static Connection con;
 	private static PreparedStatement stmt;
@@ -60,42 +63,27 @@ public class Manager_AddTables {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		readSettings();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 554, 386);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		frame.getContentPane().setLayout(null);
 		
-		lblTableId = new JLabel("Table ID");
-		lblTableId.setBounds(23, 16, 61, 20);
-		frame.getContentPane().add(lblTableId);
-		
 		lblTableType = new JLabel("Table Type");
 		lblTableType.setBounds(23, 64, 79, 20);
 		frame.getContentPane().add(lblTableType);
 		
-		lblTableOccupancy = new JLabel("Table Occupancy");
-		lblTableOccupancy.setBounds(23, 114, 120, 20);
-		frame.getContentPane().add(lblTableOccupancy);
 
 		lblTableCapacity = new JLabel("Table Capacity");
 		lblTableCapacity.setBounds(23, 164, 115, 20);
 		frame.getContentPane().add(lblTableCapacity);
-						
-		tableIDTextField = new JTextField();
-		tableIDTextField.setBounds(158, 13, 146, 26);
-		tableIDTextField.setColumns(10);
-		frame.getContentPane().add(tableIDTextField);
 		
 		tableTypeTextField = new JTextField();
 		tableTypeTextField.setBounds(158, 61, 146, 26);
 		tableTypeTextField.setColumns(10);
 		frame.getContentPane().add(tableTypeTextField);
-		
-		tableOccupancyTextField = new JTextField();
-		tableOccupancyTextField.setBounds(158, 111, 146, 26);		
-		tableOccupancyTextField.setColumns(10);
-		frame.getContentPane().add(tableOccupancyTextField);
+
 		
 		tableCapacityTextField = new JTextField();
 		tableCapacityTextField.setBounds(158, 161, 146, 26);
@@ -113,47 +101,43 @@ public class Manager_AddTables {
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(checkConditions()) {
-					String tableNum = tableIDTextField.getText();
 					String tableType = tableTypeTextField.getText();
-					boolean tableOccupancy = tableOccupancyTextField.getText() != null;
-					String tableCapacity = tableCapacityTextField.getText();					
-					createTable(tableNum, tableType,tableOccupancy, tableCapacity);
+					int tableCapacity = Integer
+							.parseInt(tableCapacityTextField.getText());					
+					if(createTable(tableType, tableCapacity)) {
+						SuccessAddLabel.setText("Success:  Table Added!");
+						lblTableCapacity.setForeground(Color.BLACK);
+					}
 															
 				}
 			}
 
-			private void createTable(String tableNum, String tableType, boolean tableOccupancy, String tableCapacity) {
-				// TODO Auto-generated method stub
+			private boolean createTable(String tableType, int tableCapacity) {
 				try {
-				con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false","root","root");
-				stmt =  con.prepareStatement
-						("insert into Tables (tableID, TableType, Occupied, Capacity) values ( ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-				stmt.setString(1, tableNum);
-				stmt.setString(2, tableType);
-				stmt.setBoolean(3, false);
-				stmt.setString(4, tableCapacity);				
+				con = (Connection) DriverManager
+						.getConnection(MYSQL_URL,MYSQL_USERNAME, MYSQL_PASSWORD);
+				stmt = con
+						.prepareStatement("insert into Tables "
+								+ "(TableType, Occupied, Capacity) "
+								+ "values ( ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+				stmt.setString(1, tableType);
+				stmt.setBoolean(2, false);
+				stmt.setInt(3, tableCapacity);				
 				
 				//execute insert statement and update DB
 				stmt.executeUpdate();
 				ResultSet rs = stmt.getGeneratedKeys();
-				rs.next(); 
+				if(rs.next() == true) {
+					return true;
+				}
 				} catch (SQLException e) {
 				}
+				return false;
 			}
 
 			private boolean checkConditions() {
-				// TODO Auto-generated method stub
 				//check for empty texts
 				boolean conditionsOk = true;
-				if(tableIDTextField.getText().isEmpty()) {
-					SuccessAddLabel.setForeground(Color.RED);
-					SuccessAddLabel.setText("Item number cannot be blank");
-					lblTableId.setForeground(Color.RED);
-					conditionsOk = false;
-				}else{
-					SuccessAddLabel.setText("");
-					lblTableId.setForeground(Color.BLACK);
-				}
 				if(tableTypeTextField.getText().isEmpty()) {
 					lblTableType.setForeground(Color.RED);
 					SuccessAddLabel.setText("Item name cannot be blank");
@@ -166,10 +150,7 @@ public class Manager_AddTables {
 					lblTableCapacity.setForeground(Color.RED);
 					SuccessAddLabel.setText("Item description cannot be blank");
 					conditionsOk = false;
-				}else {
-					SuccessAddLabel.setText("Success:  Table Added!");
-					lblTableCapacity.setForeground(Color.BLACK);
-				}
+				}	
 				
 				return conditionsOk;
 			}
@@ -190,5 +171,30 @@ public class Manager_AddTables {
 		btnBack.setBounds(28, 268, 115, 29);
 		frame.getContentPane().add(btnBack);
 						
+	}
+	/**
+	 * Reads in settings from settings.conf
+	 */
+	private void readSettings() {
+		Properties prop = new Properties();
+		InputStream is = null;
+		try {
+			is = new FileInputStream("settings.conf");
+		} catch (FileNotFoundException ex) {
+			System.out.println("settings.conf not found");
+			System.exit(1);
+		}
+		try {
+			prop.load(is);
+		} catch (IOException e1) {
+			System.out.println("An error occured");
+			System.exit(1);
+			
+		}
+		MYSQL_URL = "jdbc:mysql://" + prop.getProperty("MYSQL_IP") +
+				":" + prop.getProperty("MYSQL_PORT") + "/" 
+				+ prop.getProperty("MYSQL_SCHEMA") + "?useSSL=false";
+		MYSQL_USERNAME = prop.getProperty("MYSQL_USER");
+		MYSQL_PASSWORD = prop.getProperty("MYSQL_PASS");
 	}
 }

@@ -13,11 +13,16 @@ import com.mysql.jdbc.Statement;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
@@ -28,7 +33,9 @@ import javax.swing.JComboBox;
  *
  */
 public class WStaff_AddOrder {
-
+	private String MYSQL_URL;
+	private String MYSQL_USERNAME;
+	private String MYSQL_PASSWORD;
 	private JFrame frame;
 	private JLabel lblMenuItemName;
 	private JLabel lblMenuItemDescription;
@@ -68,6 +75,7 @@ public class WStaff_AddOrder {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		readSettings();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 564, 368);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -148,12 +156,39 @@ public class WStaff_AddOrder {
 
 
 	}
+	
+	/**
+	 * Reads in settings from settings.conf
+	 */
+	private void readSettings() {
+		Properties prop = new Properties();
+		InputStream is = null;
+		try {
+			is = new FileInputStream("settings.conf");
+		} catch (FileNotFoundException ex) {
+			System.out.println("settings.conf not found");
+			System.exit(1);
+		}
+		try {
+			prop.load(is);
+		} catch (IOException e1) {
+			System.out.println("An error occured");
+			System.exit(1);
+			
+		}
+		MYSQL_URL = "jdbc:mysql://" + prop.getProperty("MYSQL_IP") +
+				":" + prop.getProperty("MYSQL_PORT") + "/" 
+				+ prop.getProperty("MYSQL_SCHEMA") + "?useSSL=false";
+		MYSQL_USERNAME = prop.getProperty("MYSQL_USER");
+		MYSQL_PASSWORD = prop.getProperty("MYSQL_PASS");
+	}
 /**
  * method called to populate the menu items into the JComboBox
  */
 	private void updateMenuItems() {
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false", "root", "root");
+			con = DriverManager
+				.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 			stmt2 = con.createStatement();
 			String s = "select * from menuitems;";
 			ResultSet rs = stmt2.executeQuery(s);
@@ -169,7 +204,8 @@ public class WStaff_AddOrder {
  */
 	private void updateTables() {
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false", "root", "root");
+			con = DriverManager
+					.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 			stmt2 = con.createStatement();
 			String s = "select * from tables;";
 			ResultSet rs = stmt2.executeQuery(s);
@@ -188,8 +224,8 @@ public class WStaff_AddOrder {
  */
 	public void createOrder(int menuItem, int table, String sr) {
 		try {
-			con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false", "root",
-					"root");
+			con = (Connection) DriverManager
+					.getConnection(MYSQL_URL, MYSQL_USERNAME,MYSQL_PASSWORD);
 			stmt = con.prepareStatement("insert into orders (MenuItem, TableID, SpecialRequest) values (?, ?, ?);",
 					Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, menuItem);

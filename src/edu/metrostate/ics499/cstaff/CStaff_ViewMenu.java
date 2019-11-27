@@ -4,9 +4,14 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.util.Properties;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -24,7 +29,9 @@ import net.proteanit.sql.DbUtils;
  */
 
 public class CStaff_ViewMenu {
-
+	private static String MYSQL_URL;
+	private static String MYSQL_USERNAME;
+	private static String MYSQL_PASSWORD;
 	private JFrame frame;
 	private static Connection con;
 	private static Statement stmt;
@@ -43,7 +50,8 @@ public class CStaff_ViewMenu {
 					CStaff_ViewMenu window = new CStaff_ViewMenu();
 					window.frame.setVisible(true);
 					
-					con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/rms?useSSL=false","root","root");
+					con = (Connection) DriverManager
+							.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 					//SQL statement to select all menu item contents
 					String query = "SELECT * FROM menuitems";						
 					stmt =  (Statement) con.createStatement();
@@ -69,6 +77,7 @@ public class CStaff_ViewMenu {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		readSettings();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 819, 491);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -105,6 +114,31 @@ public class CStaff_ViewMenu {
 					.addGap(73))
 		);
 		frame.getContentPane().setLayout(groupLayout);
+	}
+	/**
+	 * Reads in settings from settings.conf
+	 */
+	private void readSettings() {
+		Properties prop = new Properties();
+		InputStream is = null;
+		try {
+			is = new FileInputStream("settings.conf");
+		} catch (FileNotFoundException ex) {
+			System.out.println("settings.conf not found");
+			System.exit(1);
+		}
+		try {
+			prop.load(is);
+		} catch (IOException e1) {
+			System.out.println("An error occured");
+			System.exit(1);
+			
+		}
+		MYSQL_URL = "jdbc:mysql://" + prop.getProperty("MYSQL_IP") +
+				":" + prop.getProperty("MYSQL_PORT") + "/" 
+				+ prop.getProperty("MYSQL_SCHEMA") + "?useSSL=false";
+		MYSQL_USERNAME = prop.getProperty("MYSQL_USER");
+		MYSQL_PASSWORD = prop.getProperty("MYSQL_PASS");
 	}
 }
 	

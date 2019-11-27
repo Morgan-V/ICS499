@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 import edu.metrostate.ics499.sharedstaff.Login_Screen;
 import edu.metrostate.ics499.sharedstaff.Schedule;
-import edu.metrostate.ics499.sharedstaff.Tables;
+import edu.metrostate.ics499.wstaff.WStaff_ViewTables;
 
 import java.awt.Font;
 import javax.swing.JButton;
@@ -61,7 +61,7 @@ public class Host_Homepage {
 		JButton btnViewTables = new JButton("View Tables");
 		btnViewTables.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Tables.main(null);
+				Host_ViewTables.main(arguments);
 			}
 		});
 		btnViewTables.setFont(new Font("Georgia", Font.PLAIN, 35));

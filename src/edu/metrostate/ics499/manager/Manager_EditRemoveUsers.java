@@ -6,12 +6,16 @@ import java.awt.FlowLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,9 +30,9 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class Manager_EditRemoveUsers implements ActionListener {
-	private final String MYSQL_URL = "jdbc:mysql://localhost:3306/rms?useSSL=false";
-	private final String MYSQL_USERNAME = "root";
-	private final String MYSQL_PASSWORD = "root";
+	private String MYSQL_URL;
+	private String MYSQL_USERNAME;
+	private String MYSQL_PASSWORD;
 	private static Connection con;
 	private static PreparedStatement stmt;
 	private String data[][];
@@ -80,6 +84,7 @@ public class Manager_EditRemoveUsers implements ActionListener {
 	 */
 	@SuppressWarnings("serial")
 	private void initialize() {
+		readSettings();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 500, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -173,6 +178,31 @@ public class Manager_EditRemoveUsers implements ActionListener {
 		bottomPanel.add(buttonPane, BorderLayout.CENTER);
 		frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 
+	}
+	/**
+	 * Reads in settings from settings.conf
+	 */
+	private void readSettings() {
+		Properties prop = new Properties();
+		InputStream is = null;
+		try {
+			is = new FileInputStream("settings.conf");
+		} catch (FileNotFoundException ex) {
+			System.out.println("settings.conf not found");
+			System.exit(1);
+		}
+		try {
+			prop.load(is);
+		} catch (IOException e1) {
+			System.out.println("An error occured");
+			System.exit(1);
+			
+		}
+		MYSQL_URL = "jdbc:mysql://" + prop.getProperty("MYSQL_IP") +
+				":" + prop.getProperty("MYSQL_PORT") + "/" 
+				+ prop.getProperty("MYSQL_SCHEMA") + "?useSSL=false";
+		MYSQL_USERNAME = prop.getProperty("MYSQL_USER");
+		MYSQL_PASSWORD = prop.getProperty("MYSQL_PASS");
 	}
 
 	/**

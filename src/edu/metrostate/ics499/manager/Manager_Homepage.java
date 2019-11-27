@@ -1,12 +1,8 @@
 package edu.metrostate.ics499.manager;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import javax.swing.JTextPane;
-
 import edu.metrostate.ics499.sharedstaff.Login_Screen;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
@@ -15,16 +11,11 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
-import javax.swing.JSeparator;
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
-import javax.swing.JTextArea;
-import java.awt.Component;
-import javax.swing.Box;
 
 public class Manager_Homepage {
-
 	private JFrame frame;
 
 	/**
@@ -67,15 +58,35 @@ public class Manager_Homepage {
 		panel.setLayout(null);
 		
 		JButton btnManageTables = new JButton("");
-		btnManageTables.setIcon(new ImageIcon(Manager_Homepage.class.getResource("/img/desk.png")));
+		btnManageTables.setIcon(new ImageIcon(Manager_Homepage.class.
+				getResource("/img/desk.png")));
 		btnManageTables.setBackground(new Color(169, 169, 169));
 		btnManageTables.setForeground(new Color(47, 79, 79));
 		btnManageTables.setBounds(408, 314, 60, 60);
 		btnManageTables.setFont(new Font("Arial", Font.PLAIN, 23));
 		panel.add(btnManageTables);
+		btnManageTables.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String[] buttons = { "Edit/Remove Table", "Add Table"};
+				int n = JOptionPane.showOptionDialog(null,
+						"Please select an action", "",
+				        JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[1]);
+				if (n == 0) {
+					Manager_EditRemoveTables.main(null);
+					//frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+
+				}
+				if (n == 1) {
+					Manager_AddTables.main(null);
+				}
+			}
+		});
 		
 		JButton btnManagerUsers = new JButton("");
-		btnManagerUsers.setIcon(new ImageIcon(Manager_Homepage.class.getResource("/img/addU.png")));
+		btnManagerUsers.setIcon(new ImageIcon(Manager_Homepage.class.
+				getResource("/img/addU.png")));
 		btnManagerUsers.setBackground(new Color(169, 169, 169));
 		btnManagerUsers.setForeground(new Color(47, 79, 79));
 		btnManagerUsers.setBounds(408, 151, 60, 60);
@@ -83,7 +94,8 @@ public class Manager_Homepage {
 		btnManagerUsers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[] buttons = { "Edit/Remove User", "Add User"};
-				int n = JOptionPane.showOptionDialog(null, "Please select an action", "",
+				int n = JOptionPane.showOptionDialog(null,
+						"Please select an action", "",
 				        JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[1]);
 				if (n == 0) {
 					Manager_EditRemoveUsers.main(null);
@@ -98,7 +110,8 @@ public class Manager_Homepage {
 		btnManagerUsers.setFont(new Font("Arial", Font.PLAIN, 23));
 		
 		JButton btnManagerSchedules = new JButton("");
-		btnManagerSchedules.setIcon(new ImageIcon(Manager_Homepage.class.getResource("/img/Schedule.png")));
+		btnManagerSchedules.setIcon(new ImageIcon(Manager_Homepage.class.
+				getResource("/img/Schedule.png")));
 		btnManagerSchedules.setBackground(new Color(169, 169, 169));
 		btnManagerSchedules.setForeground(new Color(47, 79, 79));
 		btnManagerSchedules.setBounds(408, 233, 60, 60);
@@ -129,7 +142,8 @@ public class Manager_Homepage {
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame exitConfirm = new JFrame("exit");
-				if (JOptionPane.showConfirmDialog(exitConfirm, "Are you sure you would like to exit?", "RMS System",
+				if (JOptionPane.showConfirmDialog(exitConfirm,
+						"Are you sure you would like to exit?", "RMS System",
 						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
 					System.exit(0);
 				}
@@ -138,7 +152,8 @@ public class Manager_Homepage {
 		btnExit.setFont(new Font("Arial", Font.PLAIN, 20));
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Manager_Homepage.class.getResource("/img/manager_homepage.jpg")));
+		lblNewLabel.setIcon(new ImageIcon(Manager_Homepage.class.
+				getResource("/img/manager_homepage.jpg")));
 		lblNewLabel.setBounds(0, 0, 333, 497);
 		panel.add(lblNewLabel);
 		
@@ -169,7 +184,8 @@ public class Manager_Homepage {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Login_Screen.main(null);
-					frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+					frame.dispatchEvent(new WindowEvent(
+							frame, WindowEvent.WINDOW_CLOSING));
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}

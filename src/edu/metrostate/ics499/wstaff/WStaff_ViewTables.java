@@ -1,7 +1,8 @@
-package edu.metrostate.ics499.sharedstaff;
+package edu.metrostate.ics499.wstaff;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Panel;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,35 +20,36 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
 
-/**
- * 
- * @author Morgan This class allows user to view orders
- *
- */
-public class Orders {
+public class WStaff_ViewTables {
 	private String MYSQL_URL;
 	private String MYSQL_USERNAME;
 	private String MYSQL_PASSWORD;
 	private static Connection con;
 	private static PreparedStatement stmt;
 	private String data[][];
-	public JFrame frame;
+	private JFrame frame;
 	private JTable table;
 
 	private Panel bottomPanel = new Panel();
-	DefaultTableModel model;
+	private Panel buttonPane = new Panel();
 
+	private Panel editPane = new Panel();
+	
+
+	DefaultTableModel model;
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Orders window = new Orders();
+					WStaff_ViewTables window = new WStaff_ViewTables();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,7 +62,7 @@ public class Orders {
 	/**
 	 * Create the application.
 	 */
-	public Orders() {
+	public WStaff_ViewTables() {
 		initialize();
 	}
 
@@ -74,39 +76,51 @@ public class Orders {
 		frame.setBounds(100, 100, 500, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
-		data = getOrders(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
+		data = getTables(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 		if (data == null) {
-			data = new String[][] { { "", "", "", "" } };
+			data = new String[][] { { "", "", "", "", "", "" } };
 		}
 		table = new JTable(new DefaultTableModel(0, 0)) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false; // makes cells uneditable directly
+			}
 		};
 		model = (DefaultTableModel) table.getModel();
-		model.addColumn("Order ID");
-		model.addColumn("Table ID");
-		model.addColumn("Order");
-		model.addColumn("Special Requests");
-
-		for (String menu[] : data) {
-			model.addRow(menu); // Adds all menu items returned by the database
+		model.addColumn("ID");
+		model.addColumn("Type");
+		model.addColumn("Occupied");
+		model.addColumn("Capacity");
+		for (String user[] : data) {
+			model.addRow(user); // Adds all users returned by the database
 		}
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				table.getSelectedRows();
-
+				
 			}
 		});
+		// table.setModel(new DefaultTableModel(data,column));
 		JScrollPane pane = new JScrollPane(table);
 		pane.setBounds(0, 0, 435, 200);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		frame.getContentPane().add(pane);
+		editPane.setBackground(new Color(169, 169, 169));
+
+		editPane.setLayout(new FlowLayout());
+		
 		bottomPanel = new Panel();
 		bottomPanel.setLayout(new BorderLayout());
+		bottomPanel.add(editPane, BorderLayout.NORTH);
+		buttonPane.setBackground(new Color(47, 79, 79));
+
+		buttonPane.setLayout(new FlowLayout());
+
+		bottomPanel.add(buttonPane, BorderLayout.CENTER);
 		frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 
 	}
-	
 	/**
 	 * Reads in settings from settings.conf
 	 */
@@ -134,15 +148,16 @@ public class Orders {
 	}
 
 	/**
-	 * Returns a 2D array of all orders in the database
+	 * Returns a 2D array of all users in the database
 	 * 
 	 * @return
 	 */
-	private String[][] getOrders(String url, String username, String password) {
+	private String[][] getTables(String url, String username, String password) {
 		String[][] userArray = null;
 		try {
-			con = DriverManager.getConnection(url, password, username);
-			stmt = con.prepareStatement("select * from orders;");
+			con = DriverManager
+					.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
+			stmt = con.prepareStatement("select * from tables;");
 			ResultSet rs = stmt.executeQuery();
 			int count = 0; // finding the number of results found
 			while (rs.next()) {
@@ -153,6 +168,14 @@ public class Orders {
 			for (int i = 0; i < count; i++) {
 				for (int j = 0; j < rs.getMetaData().getColumnCount(); j++) {
 					userArray[i][j] = rs.getString(j + 1);
+					if(j == 2) {
+						if(rs.getInt(j+1) == 0) {
+							userArray[i][j] = "false";
+						}else {
+							userArray[i][j] = "true";
+						}
+						
+					}
 				}
 				rs.next();
 			}
@@ -160,6 +183,7 @@ public class Orders {
 		} catch (SQLException e) {
 		}
 		return userArray;
-	}
-
+	}	
 }
+
+

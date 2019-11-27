@@ -8,6 +8,7 @@ import java.awt.EventQueue;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import javax.swing.JFrame;
 
@@ -22,27 +23,27 @@ import edu.metrostate.ics499.wstaff.WStaff_Homepage;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.Font;
-import javax.swing.JSeparator;
-import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.ImageIcon;
-import java.awt.SystemColor;
-import javax.swing.JTextArea;
 
 public class Login_Screen {
 	// Information to reach the database
 
 	// "RMS" is the name of the database
-	private static final String url = "jdbc:mysql://localhost:3306/RMS?useSSL=false";
+	private static String MYSQL_URL;
 	// using root user name and password
-	private static final String user = "root";
-	private static final String password = "root";
+	private static String MYSQL_USERNAME;
+	private static String MYSQL_PASSWORD; 
 	private static String query1 = "";
 	private static String query2 = "";
 
@@ -87,6 +88,7 @@ public class Login_Screen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		readSettings();
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(47, 79, 79));
 		frame.setBackground(new Color(70, 130, 180));
@@ -126,7 +128,7 @@ public class Login_Screen {
 
 					// run the first statement
 					try {
-						con = (Connection) DriverManager.getConnection(url, user, password);
+						con = (Connection) DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 						stmt = (Statement) con.createStatement();
 						rs = stmt.executeQuery(query1);
 					} catch (SQLException e1) {
@@ -134,7 +136,7 @@ public class Login_Screen {
 					}
 					// run the second statement
 					try {
-						con = (Connection) DriverManager.getConnection(url, user, password);
+						con = (Connection) DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 						stmt = (Statement) con.createStatement();
 						rs2 = stmt.executeQuery(query2);
 					} catch (SQLException e1) {
@@ -256,5 +258,31 @@ public class Login_Screen {
 				pwordfield_Password.setText(null);
 			}
 		});
+	}
+	
+	/**
+	 * Reads in settings from settings.conf
+	 */
+	private void readSettings() {
+		Properties prop = new Properties();
+		InputStream is = null;
+		try {
+			is = new FileInputStream("settings.conf");
+		} catch (FileNotFoundException ex) {
+			System.out.println("settings.conf not found");
+			System.exit(1);
+		}
+		try {
+			prop.load(is);
+		} catch (IOException e1) {
+			System.out.println("An error occured");
+			System.exit(1);
+			
+		}
+		MYSQL_URL = "jdbc:mysql://" + prop.getProperty("MYSQL_IP") +
+				":" + prop.getProperty("MYSQL_PORT") + "/" 
+				+ prop.getProperty("MYSQL_SCHEMA") + "?useSSL=false";
+		MYSQL_USERNAME = prop.getProperty("MYSQL_USER");
+		MYSQL_PASSWORD = prop.getProperty("MYSQL_PASS");
 	}
 }
