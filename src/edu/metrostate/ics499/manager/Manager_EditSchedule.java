@@ -289,7 +289,6 @@ public class Manager_EditSchedule implements ActionListener {
 				return true;
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getLocalizedMessage());
 			// Falls through and returns false
 		}
 		return false;
@@ -359,7 +358,6 @@ public class Manager_EditSchedule implements ActionListener {
 			rs.first();
 			return rs.getInt(1);
 		} catch (SQLException e) {
-			System.out.println(e.getLocalizedMessage());
 			return -1;
 		}
 	}
@@ -369,20 +367,23 @@ public class Manager_EditSchedule implements ActionListener {
 		if (e.getActionCommand() == "Update") {
 			if (selectedRows == null) {
 			} else {
-				if (table.getModel().getValueAt(selectedRows[0], 1) == "") {
-				} else {
-					if (editSchedule(Integer.parseInt(editId.getText()), Integer.parseInt(editUserId.getText()),
-							editDate.getText(), editStart.getText(), editEnd.getText())) {
-
-						model.setValueAt(editId.getText(), selectedRows[0], 0);
-						model.setValueAt(editUserId.getText(), selectedRows[0], 1);
-						model.setValueAt(IdToName(Integer.parseInt(editUserId.getText())), selectedRows[0], 2);
-						editName.setText(IdToName(Integer.parseInt(editUserId.getText())));
-						model.setValueAt(editDate.getText(), selectedRows[0], 3);
-						model.setValueAt(editStart.getText(), selectedRows[0], 4);
-						model.setValueAt(editEnd.getText(), selectedRows[0], 5);
+					try {
+						if (editSchedule(Integer.parseInt(editId.getText()), Integer.parseInt(editUserId.getText()),
+								editDate.getText(), editStart.getText(), editEnd.getText())) {
+							model.setValueAt(editId.getText(), selectedRows[0], 0);
+							model.setValueAt(editUserId.getText(), selectedRows[0], 1);
+							model.setValueAt(IdToName(Integer.parseInt(editUserId.getText())), selectedRows[0], 2);
+							editName.setText(IdToName(Integer.parseInt(editUserId.getText())));
+							model.setValueAt(editDate.getText(), selectedRows[0], 3);
+							model.setValueAt(editStart.getText(), selectedRows[0], 4);
+							model.setValueAt(editEnd.getText(), selectedRows[0], 5);
+						}
+						
 					}
-				}
+					catch (NumberFormatException f) {
+						return;
+					}
+				
 			}
 		} else if (e.getActionCommand() == "Delete") {
 			if (selectedRows == null) {
