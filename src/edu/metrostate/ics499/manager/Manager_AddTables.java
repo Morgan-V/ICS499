@@ -36,6 +36,7 @@ public class Manager_AddTables {
 
 	private static Connection con;
 	private static PreparedStatement stmt;
+
 	/**
 	 * Launch the application.
 	 */
@@ -65,39 +66,51 @@ public class Manager_AddTables {
 	private void initialize() {
 		readSettings();
 		frame = new JFrame();
-		frame.setBounds(100, 100, 554, 386);
+		frame.getContentPane().setBackground(new Color(47, 79, 79));
+		frame.setBounds(100, 100, 480, 296);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		frame.getContentPane().setLayout(null);
 		
 		lblTableType = new JLabel("Table Type");
-		lblTableType.setBounds(23, 64, 79, 20);
+		lblTableType.setForeground(new Color(169, 169, 169));
+		lblTableType.setFont(new Font("Arial", Font.ITALIC, 20));
+		lblTableType.setBounds(48, 64, 121, 20);
 		frame.getContentPane().add(lblTableType);
 		
 
 		lblTableCapacity = new JLabel("Table Capacity");
-		lblTableCapacity.setBounds(23, 164, 115, 20);
+		lblTableCapacity.setForeground(new Color(169, 169, 169));
+		lblTableCapacity.setFont(new Font("Arial", Font.ITALIC, 20));
+		lblTableCapacity.setBounds(48, 114, 137, 27);
 		frame.getContentPane().add(lblTableCapacity);
 		
 		tableTypeTextField = new JTextField();
-		tableTypeTextField.setBounds(158, 61, 146, 26);
+		tableTypeTextField.setForeground(new Color(47, 79, 79));
+		tableTypeTextField.setFont(new Font("Arial", Font.BOLD, 20));
+		tableTypeTextField.setBounds(207, 61, 209, 26);
 		tableTypeTextField.setColumns(10);
 		frame.getContentPane().add(tableTypeTextField);
 
 		
 		tableCapacityTextField = new JTextField();
-		tableCapacityTextField.setBounds(158, 161, 146, 26);
+		tableCapacityTextField.setForeground(new Color(47, 79, 79));
+		tableCapacityTextField.setFont(new Font("Arial", Font.BOLD, 20));
+		tableCapacityTextField.setBounds(207, 115, 209, 26);
 		tableCapacityTextField.setColumns(10);
 		frame.getContentPane().add(tableCapacityTextField);				
 		
 		//success label, display success if table created
 		SuccessAddLabel = new JLabel("");
-		SuccessAddLabel.setFont(new Font("Georgia", Font.BOLD, 11));
-		SuccessAddLabel.setBounds(245, 218, 69, 20);
+		SuccessAddLabel.setBackground(new Color(169, 169, 169));
+		SuccessAddLabel.setFont(new Font("Arial", Font.BOLD, 20));
+		SuccessAddLabel.setBounds(48, 163, 368, 29);
 		frame.getContentPane().add(SuccessAddLabel);
 				
 		//submits table information and display message
 		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.setForeground(new Color(47, 79, 79));
+		btnSubmit.setBackground(new Color(143, 188, 143));
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(checkConditions()) {
@@ -106,7 +119,7 @@ public class Manager_AddTables {
 							.parseInt(tableCapacityTextField.getText());					
 					if(createTable(tableType, tableCapacity)) {
 						SuccessAddLabel.setText("Success:  Table Added!");
-						lblTableCapacity.setForeground(Color.BLACK);
+						lblTableCapacity.setForeground(Color.decode("#A9A9A9"));
 					}
 															
 				}
@@ -140,38 +153,65 @@ public class Manager_AddTables {
 				boolean conditionsOk = true;
 				if(tableTypeTextField.getText().isEmpty()) {
 					lblTableType.setForeground(Color.RED);
-					SuccessAddLabel.setText("Item name cannot be blank");
+					SuccessAddLabel.setText("Table type cannot be blank");
 					conditionsOk = false;
 				}else {
 					SuccessAddLabel.setText("");
-					lblTableType.setForeground(Color.BLACK);
+					lblTableType.setForeground(Color.decode("#A9A9A9"));
 				}
+				//make sure capacity is an int
+				if(isInteger(tableCapacityTextField.getText())) {
 				if(tableCapacityTextField.getText().isEmpty()) {
 					lblTableCapacity.setForeground(Color.RED);
-					SuccessAddLabel.setText("Item description cannot be blank");
+					SuccessAddLabel.setForeground(Color.RED);
+					SuccessAddLabel.setText("Table capacity cannot be blank");
 					conditionsOk = false;
-				}	
-				
+				}
+				}
+				else {
+					SuccessAddLabel.setForeground(Color.RED);
+					lblTableCapacity.setForeground(Color.RED);
+
+					SuccessAddLabel.setText("Table capacity must be a number!");
+					conditionsOk = false;
+				}
+		
 				return conditionsOk;
 			}
+
+			private boolean isInteger(String text) {
+				boolean isValidInteger = false;
+			      try
+			      {
+			         Integer.parseInt(text);
+			         isValidInteger = true;
+			      }
+			      catch (NumberFormatException ex)
+			      {
+			      }
+			      return isValidInteger;
+			}
 		});
-		btnSubmit.setFont(new Font("Georgia", Font.BOLD, 11));
-		btnSubmit.setBounds(204, 268, 115, 29);
+		btnSubmit.setFont(new Font("Arial", Font.BOLD, 20));
+		btnSubmit.setBounds(283, 219, 133, 29);
 		frame.getContentPane().add(btnSubmit);
 
 			
 		//back button that returns to managers homepage
 		JButton btnBack = new JButton("Back");
-		btnBack.setFont(new Font("Georgia", Font.BOLD, 11));
+		btnBack.setForeground(new Color(47, 79, 79));
+		btnBack.setBackground(new Color(143, 188, 143));
+		btnBack.setFont(new Font("Arial", Font.BOLD, 20));
 		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Manager_Homepage.main(null);
-			}
-		});
-		btnBack.setBounds(28, 268, 115, 29);
-		frame.getContentPane().add(btnBack);
-						
+
+	public void actionPerformed(ActionEvent arg0) {
+		frame.dispose();
 	}
+
+	});btnBack.setBounds(48,219,133,29);frame.getContentPane().add(btnBack);
+
+	}
+
 	/**
 	 * Reads in settings from settings.conf
 	 */
@@ -189,10 +229,9 @@ public class Manager_AddTables {
 		} catch (IOException e1) {
 			System.out.println("An error occured");
 			System.exit(1);
-			
+
 		}
-		MYSQL_URL = "jdbc:mysql://" + prop.getProperty("MYSQL_IP") +
-				":" + prop.getProperty("MYSQL_PORT") + "/" 
+		MYSQL_URL = "jdbc:mysql://" + prop.getProperty("MYSQL_IP") + ":" + prop.getProperty("MYSQL_PORT") + "/"
 				+ prop.getProperty("MYSQL_SCHEMA") + "?useSSL=false";
 		MYSQL_USERNAME = prop.getProperty("MYSQL_USER");
 		MYSQL_PASSWORD = prop.getProperty("MYSQL_PASS");

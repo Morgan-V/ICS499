@@ -242,13 +242,13 @@ public class Login_Screen {
 				frame.getContentPane().add(lblNewLabel_2);
 				
 				JLabel lblUsername = new JLabel("Username:");
-				lblUsername.setForeground(new Color(211, 211, 211));
+				lblUsername.setForeground(new Color(169, 169, 169));
 				lblUsername.setFont(new Font("Georgia", Font.ITALIC, 19));
 				lblUsername.setBounds(350, 162, 122, 56);
 				frame.getContentPane().add(lblUsername);
 				
 				JLabel lblPassword = new JLabel("Password:");
-				lblPassword.setForeground(new Color(211, 211, 211));
+				lblPassword.setForeground(new Color(169, 169, 169));
 				lblPassword.setFont(new Font("Georgia", Font.ITALIC, 19));
 				lblPassword.setBounds(350, 228, 122, 56);
 				frame.getContentPane().add(lblPassword);

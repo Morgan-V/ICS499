@@ -76,7 +76,7 @@ public class Orders {
 		frame.getContentPane().setLayout(new BorderLayout());
 		data = getOrders(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 		if (data == null) {
-			data = new String[][] { { "", "", "", "" } };
+			data = new String[][] { { "", "", "", "", "" } };
 		}
 		table = new JTable(new DefaultTableModel(0, 0)) {
 		};
@@ -85,6 +85,7 @@ public class Orders {
 		model.addColumn("Table ID");
 		model.addColumn("Order");
 		model.addColumn("Special Requests");
+		model.addColumn("Order Complete");
 
 		for (String menu[] : data) {
 			model.addRow(menu); // Adds all menu items returned by the database
@@ -139,9 +140,10 @@ public class Orders {
 	 * @return
 	 */
 	private String[][] getOrders(String url, String username, String password) {
-		String[][] userArray = null;
+		String[][] orderArray = null;
 		try {
-			con = DriverManager.getConnection(url, password, username);
+			con = DriverManager
+					.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 			stmt = con.prepareStatement("select * from orders;");
 			ResultSet rs = stmt.executeQuery();
 			int count = 0; // finding the number of results found
@@ -149,17 +151,24 @@ public class Orders {
 				count++;
 			}
 			rs.first();
-			userArray = new String[count][rs.getMetaData().getColumnCount()];
+			orderArray = new String[count][rs.getMetaData().getColumnCount()];
 			for (int i = 0; i < count; i++) {
 				for (int j = 0; j < rs.getMetaData().getColumnCount(); j++) {
-					userArray[i][j] = rs.getString(j + 1);
+					orderArray[i][j] = rs.getString(j + 1);
+					if (j == 4) {
+						if (rs.getInt(j + 1) == 0) {
+							orderArray[i][j] = "false";
+						} else {
+							orderArray[i][j] = "true";
+						}
+
+					}
 				}
 				rs.next();
 			}
 
 		} catch (SQLException e) {
 		}
-		return userArray;
+		return orderArray;
 	}
-
 }
