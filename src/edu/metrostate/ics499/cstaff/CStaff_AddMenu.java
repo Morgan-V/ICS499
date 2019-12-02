@@ -75,38 +75,46 @@ public class CStaff_AddMenu {
 	private void initialize() {
 		readSettings();
 		frame = new JFrame();
-		frame.setBounds(100, 100, 564, 368);
+		frame.getContentPane().setBackground(new Color(47, 79, 79));
+		frame.setBackground(new Color(47, 79, 79));
+		frame.setBounds(100, 100, 541, 267);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		lblMenuItemName = new JLabel("Menu Item Name:");
-		lblMenuItemName.setFont(new Font("Georgia", Font.PLAIN, 17));
-		lblMenuItemName.setBounds(23, 54, 160, 24);
+		lblMenuItemName.setBackground(new Color(255, 255, 255));
+		lblMenuItemName.setForeground(new Color(169, 169, 169));
+		lblMenuItemName.setFont(new Font("Arial", Font.ITALIC, 17));
+		lblMenuItemName.setBounds(63, 54, 146, 24);
 		frame.getContentPane().add(lblMenuItemName);
 
 		lblMenuItemDescription = new JLabel("Menu Item Description:");
-		lblMenuItemDescription.setFont(new Font("Georgia", Font.PLAIN, 17));
-		lblMenuItemDescription.setBounds(23, 154, 197, 24);
+		lblMenuItemDescription.setForeground(new Color(169, 169, 169));
+		lblMenuItemDescription.setFont(new Font("Arial", Font.ITALIC, 17));
+		lblMenuItemDescription.setBounds(23, 98, 197, 24);
 		frame.getContentPane().add(lblMenuItemDescription);
 
 		itemNameTextField = new JTextField();
-		itemNameTextField.setFont(new Font("Georgia", Font.PLAIN, 14));
+		itemNameTextField.setBackground(new Color(255, 255, 255));
+		itemNameTextField.setForeground(new Color(47, 79, 79));
+		itemNameTextField.setFont(new Font("Arial", Font.PLAIN, 14));
 		itemNameTextField.setColumns(10);
 		itemNameTextField.setBounds(230, 56, 271, 24);
 		frame.getContentPane().add(itemNameTextField);
 
 		JButton btnNewButton = new JButton("Back");
+		btnNewButton.setBackground(new Color(143, 188, 143));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CStaff_Homepage.main(arguments);
-				frame.dispose();
+					frame.dispose();
 			}
 		});
-		btnNewButton.setFont(new Font("Georgia", Font.PLAIN, 10));
-		btnNewButton.setBounds(23, 287, 85, 21);
+		btnNewButton.setFont(new Font("Arial", Font.BOLD, 10));
+		btnNewButton.setBounds(23, 158, 100, 21);
 		frame.getContentPane().add(btnNewButton);
 
 		JButton btnDone = new JButton("Submit");
+		btnDone.setBackground(new Color(143, 188, 143));
 		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(checkConditions()) {
@@ -119,19 +127,21 @@ public class CStaff_AddMenu {
 				}
 			}
 		});
-		btnDone.setFont(new Font("Georgia", Font.PLAIN, 10));
-		btnDone.setBounds(414, 287, 85, 21);
+		btnDone.setFont(new Font("Arial", Font.BOLD, 10));
+		btnDone.setBounds(401, 158, 100, 21);
 		frame.getContentPane().add(btnDone);
 		
 		successLabel = new JLabel("");
-		successLabel.setFont(new Font("Georgia", Font.PLAIN, 16));
-		successLabel.setBounds(23, 243, 496, 13);
+		successLabel.setForeground(new Color(169, 169, 169));
+		successLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+		successLabel.setBounds(23, 199, 496, 21);
 		frame.getContentPane().add(successLabel);
 		
 		itemDescTextField = new JTextField();
-		itemDescTextField.setFont(new Font("Georgia", Font.PLAIN, 14));
+		itemDescTextField.setForeground(new Color(47, 79, 79));
+		itemDescTextField.setFont(new Font("Arial", Font.PLAIN, 14));
 		itemDescTextField.setColumns(10);
-		itemDescTextField.setBounds(230, 156, 271, 24);
+		itemDescTextField.setBounds(230, 100, 271, 24);
 		frame.getContentPane().add(itemDescTextField);
 	}
 	/**
@@ -192,19 +202,21 @@ public class CStaff_AddMenu {
 
 		if(itemNameTextField.getText().isBlank()) {
 			lblMenuItemName.setForeground(Color.RED);
+			lblMenuItemDescription.setForeground(Color.RED);
+			successLabel.setForeground(Color.RED);
 			successLabel.setText("Item name cannot be blank");
 			conditionsOk = false;
-		}else {
-			successLabel.setText("");
-			lblMenuItemName.setForeground(Color.BLACK);
 		}
-		if(itemDescTextField.getText().isBlank()) {
+		else if(itemDescTextField.getText().isBlank()) {
 			lblMenuItemDescription.setForeground(Color.RED);
+			successLabel.setForeground(Color.RED);
 			successLabel.setText("Item description cannot be blank");
 			conditionsOk = false;
 		}else {
 			successLabel.setText("");
-			lblMenuItemDescription.setForeground(Color.BLACK);
+			successLabel.setForeground(Color.decode("#A9A9A9"));
+			lblMenuItemDescription.setForeground(Color.decode("#A9A9A9"));
+			lblMenuItemName.setForeground(Color.decode("#A9A9A9"));
 		}
 		return conditionsOk;
 	}
