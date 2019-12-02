@@ -11,13 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import edu.metrostate.ics499.manager.Manager_AddUsers;
-import edu.metrostate.ics499.manager.Manager_EditRemoveUsers;
 import edu.metrostate.ics499.sharedstaff.Login_Screen;
 import edu.metrostate.ics499.sharedstaff.Orders;
 import edu.metrostate.ics499.sharedstaff.Schedule;
-import edu.metrostate.ics499.wstaff.WStaff_AddOrder;
-import edu.metrostate.ics499.wstaff.WStaff_EditRemoveOrder;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 /**
  * 
@@ -57,41 +55,53 @@ public class CStaff_Homepage {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(47, 79, 79));
 		frame.setBounds(100, 100, 873, 507);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel lblHostHomepage = new JLabel("Cook Staff Homepage");
-		lblHostHomepage.setFont(new Font("Verdana", Font.PLAIN, 60));
-		lblHostHomepage.setBounds(91, 45, 677, 86);
+		lblHostHomepage.setForeground(new Color(143, 188, 143));
+		lblHostHomepage.setBackground(new Color(143, 188, 143));
+		lblHostHomepage.setFont(new Font("Georgia", Font.PLAIN, 53));
+		lblHostHomepage.setBounds(338, 0, 521, 86);
 		frame.getContentPane().add(lblHostHomepage);
 
-		JButton btnManageOrders = new JButton("Manage Orders");
+		JButton btnManageOrders = new JButton("");
+		btnManageOrders.setBackground(new Color(169, 169, 169));
+		btnManageOrders.setIcon(new ImageIcon(CStaff_Homepage.class.getResource("/img/order.png")));
 		btnManageOrders.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[] buttons = { "Complete Orders", "View Orders"};
 				int n = JOptionPane.showOptionDialog(null, "Please select an action", "",
 				        JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[1]);
+				if (n == 0) {
+					CStaff_CompleteOrders.main(arguments);
+				}
 				if (n == 1) {
 					Orders.main(arguments);
 				}
 			}
 		});
 		btnManageOrders.setFont(new Font("Georgia", Font.PLAIN, 35));
-		btnManageOrders.setBounds(264, 153, 299, 50);
+		btnManageOrders.setBounds(392, 123, 60, 60);
 		frame.getContentPane().add(btnManageOrders);
 
-		JButton btnViewSchedule = new JButton("View Schedule");
+		JButton btnViewSchedule = new JButton("");
+		btnViewSchedule.setBackground(new Color(169, 169, 169));
+		btnViewSchedule.setIcon(new ImageIcon(CStaff_Homepage.class.getResource("/img/Schedule.png")));
 		btnViewSchedule.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Schedule.main(arguments);
 			}
 		});
 		btnViewSchedule.setFont(new Font("Georgia", Font.PLAIN, 35));
-		btnViewSchedule.setBounds(264, 271, 299, 50);
+		btnViewSchedule.setBounds(392, 309, 60, 60);
 		frame.getContentPane().add(btnViewSchedule);
 
 		JButton button_1 = new JButton("Back to Login");
+		button_1.setBackground(new Color(143, 188, 143));
+		button_1.setForeground(new Color(47, 79, 79));
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -103,11 +113,13 @@ public class CStaff_Homepage {
 				}
 			}
 		});
-		button_1.setFont(new Font("Georgia", Font.PLAIN, 20));
-		button_1.setBounds(39, 402, 215, 34);
+		button_1.setFont(new Font("Arial", Font.PLAIN, 20));
+		button_1.setBounds(363, 416, 166, 33);
 		frame.getContentPane().add(button_1);
 
 		JButton button_2 = new JButton("Exit");
+		button_2.setBackground(new Color(143, 188, 143));
+		button_2.setForeground(new Color(47, 79, 79));
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame exitConfirm = new JFrame("exit");
@@ -117,12 +129,14 @@ public class CStaff_Homepage {
 				}
 			}
 		});
-		button_2.setFont(new Font("Georgia", Font.PLAIN, 20));
-		button_2.setBounds(681, 402, 132, 34);
+		button_2.setFont(new Font("Arial", Font.PLAIN, 20));
+		button_2.setBounds(670, 416, 166, 33);
 		frame.getContentPane().add(button_2);
 
 		//The options for what cook staff can do
-		JButton btnManageMenu = new JButton("Manage Menu");
+		JButton btnManageMenu = new JButton("");
+		btnManageMenu.setBackground(new Color(169, 169, 169));
+		btnManageMenu.setIcon(new ImageIcon(CStaff_Homepage.class.getResource("/img/menu.png")));
 		btnManageMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[] buttons = { "Edit/Remove Menu Items", "Add Menu Items", "View Menu Items" };
@@ -140,9 +154,34 @@ public class CStaff_Homepage {
 			}
 		});
 		btnManageMenu.setFont(new Font("Georgia", Font.PLAIN, 35));
-		btnManageMenu.setBounds(264, 213, 299, 50);
+		btnManageMenu.setBounds(392, 215, 60, 60);
 		frame.getContentPane().add(btnManageMenu);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(CStaff_Homepage.class.getResource("/img/cookstaff_homepage.jpg")));
+		lblNewLabel.setBounds(0, 0, 342, 470);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Manage Orders");
+		lblNewLabel_1.setForeground(new Color(169, 169, 169));
+		lblNewLabel_1.setBackground(new Color(169, 169, 169));
+		lblNewLabel_1.setFont(new Font("Arial", Font.ITALIC, 33));
+		lblNewLabel_1.setBounds(491, 138, 238, 34);
+		frame.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblManageMenu = new JLabel("Manage Menu");
+		lblManageMenu.setForeground(new Color(169, 169, 169));
+		lblManageMenu.setFont(new Font("Arial", Font.ITALIC, 33));
+		lblManageMenu.setBackground(new Color(169, 169, 169));
+		lblManageMenu.setBounds(491, 227, 238, 34);
+		frame.getContentPane().add(lblManageMenu);
+		
+		JLabel lblViewSchedule = new JLabel("View Schedule");
+		lblViewSchedule.setForeground(new Color(169, 169, 169));
+		lblViewSchedule.setFont(new Font("Arial", Font.ITALIC, 33));
+		lblViewSchedule.setBackground(new Color(169, 169, 169));
+		lblViewSchedule.setBounds(491, 324, 238, 34);
+		frame.getContentPane().add(lblViewSchedule);
 
 	}
-
 }
