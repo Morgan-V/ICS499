@@ -285,7 +285,7 @@ public class Manager_EditRemoveTables implements ActionListener {
 		if (e.getActionCommand() == "Update") {
 			// make sure a user is selected
 			if (editOccupied.getText().contentEquals("")) {
-				JOptionPane.showMessageDialog(null, "Please select a user");
+				JOptionPane.showMessageDialog(null, "Please select a table");
 			} else if (editTable(Integer.parseInt(editId.getText()), editType.getText(), Boolean.parseBoolean(editOccupied.getText()),Integer.parseInt(editCapacity.getText()))) {
 				model.setValueAt(editId.getText(), selectedRows[0], 0);
 				model.setValueAt(editType.getText(), selectedRows[0], 1);
@@ -295,7 +295,7 @@ public class Manager_EditRemoveTables implements ActionListener {
 		} else if (e.getActionCommand() == "Delete") {
 			//make sure a user is selected
 			if (editOccupied.getText().contentEquals("")) {
-				JOptionPane.showMessageDialog(null, "Please select a user");
+				JOptionPane.showMessageDialog(null, "Please select a table");
 			} else {
 				int id = Integer.parseInt((String) table.getModel().getValueAt(selectedRows[0], 0));
 				if (removeUser(id)) {
