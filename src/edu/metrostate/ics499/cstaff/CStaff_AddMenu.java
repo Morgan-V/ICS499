@@ -43,13 +43,10 @@ public class CStaff_AddMenu {
 	private static Connection con;
 	private static PreparedStatement stmt;
 	private JTextField itemDescTextField;
-	private static String[] arguments;
-
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		arguments = args;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

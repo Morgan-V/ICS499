@@ -29,6 +29,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
+import java.awt.Color;
+import java.awt.Font;
 
 /**
  * 
@@ -99,7 +101,7 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 		frame.getContentPane().setLayout(new BorderLayout());
 		data = getOrders(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 		if (data == null) {
-			data = new String[][] { { "", "", "", "" } };
+			data = new String[][] { { "", "", "", "", "", "" } };
 		}
 		table = new JTable(new DefaultTableModel(0, 0)) {
 			@Override
@@ -109,9 +111,10 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 		};
 		model = (DefaultTableModel) table.getModel();
 		model.addColumn("Order ID");
-		model.addColumn("Table ID");
 		model.addColumn("Order");
+		model.addColumn("Table ID");
 		model.addColumn("Special Requests");
+		model.addColumn("Order Complete");
 
 		for (String menu[] : data) {
 			model.addRow(menu); // Adds all menu items returned by the database
@@ -129,29 +132,45 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 		pane.setBounds(0, 0, 435, 200);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		frame.getContentPane().add(pane);
+		editPane.setBackground(new Color(169, 169, 169));
 
 		editPane.setLayout(new FlowLayout());
 		editId = new JTextField();
+		editId.setForeground(new Color(47, 79, 79));
+		editId.setFont(new Font("Arial", Font.BOLD, 13));
 		editId.setHorizontalAlignment(SwingConstants.CENTER);
 		editId.setEditable(false);
 		editId.setColumns(11);
 		editSR = new JTextField();
+		editSR.setForeground(new Color(47, 79, 79));
+		editSR.setFont(new Font("Arial", Font.BOLD, 13));
 		editSR.setHorizontalAlignment(SwingConstants.CENTER);
 		editSR.setColumns(11);
 		editPane.add(editId);
+				editOrder.setForeground(new Color(47, 79, 79));
+				editOrder.setFont(new Font("Arial", Font.BOLD, 13));
+		
+				editPane.add(editOrder);
+		editTableID.setForeground(new Color(47, 79, 79));
+		editTableID.setFont(new Font("Arial", Font.BOLD, 13));
 
 		editPane.add(editTableID);
-
-		editPane.add(editOrder);
 		editPane.add(editSR);
 		bottomPanel = new Panel();
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.add(editPane, BorderLayout.NORTH);
+		buttonPane.setBackground(new Color(47, 79, 79));
 
 		buttonPane.setLayout(new FlowLayout());
 		updateButton = new JButton("Update");
+		updateButton.setBackground(new Color(169, 169, 169));
+		updateButton.setForeground(new Color(47, 79, 79));
+		updateButton.setFont(new Font("Arial", Font.BOLD, 13));
 		updateButton.addActionListener(this);
 		deleteButton = new JButton("Delete");
+		deleteButton.setBackground(new Color(169, 169, 169));
+		deleteButton.setForeground(new Color(47, 79, 79));
+		deleteButton.setFont(new Font("Arial", Font.BOLD, 13));
 		deleteButton.addActionListener(this);
 		buttonPane.add(updateButton);
 		buttonPane.add(deleteButton);
@@ -287,7 +306,16 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 			for (int i = 0; i < count; i++) {
 				for (int j = 0; j < rs.getMetaData().getColumnCount(); j++) {
 					userArray[i][j] = rs.getString(j + 1);
+					if (j == 4) {
+						if (rs.getInt(j + 1) == 0) {
+							userArray[i][j] = "false";
+						} else {
+							userArray[i][j] = "true";
+						}
+
+					}
 				}
+			
 				rs.next();
 			}
 
@@ -308,8 +336,8 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 			} else if (editOrder(Integer.parseInt(editId.getText()), editTableID.getSelectedItem(),
 					editOrder.getSelectedItem(), editSR.getText())) {
 				model.setValueAt(editId.getText(), selectedRows[0], 0);
-				model.setValueAt(editTableID.getSelectedItem(), selectedRows[0], 1);
-				model.setValueAt(editOrder.getSelectedItem(), selectedRows[0], 2);
+				model.setValueAt(editOrder.getSelectedItem(), selectedRows[0], 1);
+				model.setValueAt(editTableID.getSelectedItem(), selectedRows[0], 2);
 				model.setValueAt(editSR.getText(), selectedRows[0], 3);
 			}
 			} else if (e.getActionCommand() == "Delete") {

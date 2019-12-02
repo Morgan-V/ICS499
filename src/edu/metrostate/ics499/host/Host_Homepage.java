@@ -8,8 +8,6 @@ import javax.swing.JOptionPane;
 
 import edu.metrostate.ics499.sharedstaff.Login_Screen;
 import edu.metrostate.ics499.sharedstaff.Schedule;
-import edu.metrostate.ics499.wstaff.WStaff_ViewTables;
-
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;

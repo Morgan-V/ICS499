@@ -12,7 +12,6 @@ import com.mysql.jdbc.Statement;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,6 +24,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import java.awt.Color;
 
 /**
  * 
@@ -77,6 +77,7 @@ public class WStaff_AddOrder {
 	private void initialize() {
 		readSettings();
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(47, 79, 79));
 		frame.setBounds(100, 100, 564, 368);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -84,27 +85,33 @@ public class WStaff_AddOrder {
 		updateTables();
 
 		lblMenuItemName = new JLabel("Item:");
+		lblMenuItemName.setForeground(new Color(169, 169, 169));
 		lblMenuItemName.setFont(new Font("Georgia", Font.PLAIN, 17));
 		lblMenuItemName.setBounds(23, 54, 160, 24);
 		frame.getContentPane().add(lblMenuItemName);
 
 		lblMenuItemDescription = new JLabel("Special Requests:");
+		lblMenuItemDescription.setForeground(new Color(169, 169, 169));
 		lblMenuItemDescription.setFont(new Font("Georgia", Font.PLAIN, 17));
 		lblMenuItemDescription.setBounds(23, 154, 197, 24);
 		frame.getContentPane().add(lblMenuItemDescription);
 
 		JButton btnNewButton = new JButton("Done");
+		btnNewButton.setBackground(new Color(143, 188, 143));
+		btnNewButton.setForeground(new Color(47, 79, 79));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.dispose();
 				
 			}
 		});
-		btnNewButton.setFont(new Font("Georgia", Font.PLAIN, 10));
-		btnNewButton.setBounds(23, 287, 85, 21);
+		btnNewButton.setFont(new Font("Arial", Font.BOLD, 15));
+		btnNewButton.setBounds(23, 287, 133, 27);
 		frame.getContentPane().add(btnNewButton);
 
 		JButton btnDone = new JButton("Add Order");
+		btnDone.setBackground(new Color(143, 188, 143));
+		btnDone.setForeground(new Color(47, 79, 79));
 		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -117,39 +124,38 @@ public class WStaff_AddOrder {
 				
 			}
 		});
-		btnDone.setFont(new Font("Georgia", Font.PLAIN, 10));
-		btnDone.setBounds(414, 287, 85, 21);
+		btnDone.setFont(new Font("Arial", Font.BOLD, 15));
+		btnDone.setBounds(366, 287, 133, 27);
 		frame.getContentPane().add(btnDone);
 
 		successLabel = new JLabel("");
-		successLabel.setFont(new Font("Georgia", Font.PLAIN, 16));
-		successLabel.setBounds(218, 243, 301, 13);
+		successLabel.setForeground(new Color(169, 169, 169));
+		successLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+		successLabel.setBounds(218, 243, 301, 24);
 		frame.getContentPane().add(successLabel);
 
 		srLabel = new JTextField();
-		srLabel.setFont(new Font("Georgia", Font.PLAIN, 14));
+		srLabel.setBackground(new Color(169, 169, 169));
+		srLabel.setForeground(new Color(47, 79, 79));
+		srLabel.setFont(new Font("Arial", Font.BOLD, 14));
 		srLabel.setColumns(10);
 		srLabel.setBounds(230, 156, 271, 24);
 		frame.getContentPane().add(srLabel);
 
-		JButton button = new JButton("Back");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-
-			}
-		});
-		button.setFont(new Font("Georgia", Font.PLAIN, 10));
-		button.setBounds(218, 287, 85, 21);
-		frame.getContentPane().add(button);
-
 		JLabel lblForTable = new JLabel("For Table:");
+		lblForTable.setForeground(new Color(169, 169, 169));
 		lblForTable.setFont(new Font("Georgia", Font.PLAIN, 17));
 		lblForTable.setBounds(23, 103, 160, 24);
 		frame.getContentPane().add(lblForTable);
+		menuComboBox.setFont(new Font("Arial", Font.BOLD, 15));
+		menuComboBox.setBackground(new Color(169, 169, 169));
+		menuComboBox.setForeground(new Color(47, 79, 79));
 
 		menuComboBox.setBounds(230, 58, 269, 21);
 		frame.getContentPane().add(menuComboBox);
+		tableComboBox.setFont(new Font("Arial", Font.BOLD, 15));
+		tableComboBox.setBackground(new Color(169, 169, 169));
+		tableComboBox.setForeground(new Color(47, 79, 79));
 
 		tableComboBox.setBounds(230, 107, 269, 21);
 		frame.getContentPane().add(tableComboBox);
