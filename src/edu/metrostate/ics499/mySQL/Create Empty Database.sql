@@ -23,11 +23,11 @@ DROP TABLE IF EXISTS `menuitems`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `menuitems` (
-  `MenuItem` int(11) NOT NULL,
+  `MenuItem` int(11) NOT NULL AUTO_INCREMENT,
   `ItemName` varchar(255) DEFAULT NULL,
   `ItemDesc` text,
   PRIMARY KEY (`MenuItem`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,17 +47,17 @@ DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
-  `OrderID` int(11) NOT NULL,
+  `OrderID` int(11) NOT NULL AUTO_INCREMENT,
   `MenuItem` int(11) DEFAULT NULL,
   `TableID` int(11) DEFAULT NULL,
   `SpecialRequest` varchar(200) DEFAULT NULL,
+  `OrderComplete` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`OrderID`),
   KEY `TableID` (`TableID`),
   KEY `MenuItem` (`MenuItem`),
-  KEY `SpecialRequest` (`SpecialRequest`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`TableID`) REFERENCES `tables` (`TableID`),
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`MenuItem`) REFERENCES `menuitems` (`MenuItem`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +77,7 @@ DROP TABLE IF EXISTS `schedules`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `schedules` (
-  `ScheduleId` int(11) NOT NULL,
+  `ScheduleId` int(11) NOT NULL AUTO_INCREMENT,
   `UserID` int(11) DEFAULT NULL,
   `Date` date DEFAULT NULL,
   `StartTime` time DEFAULT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE `schedules` (
   PRIMARY KEY (`ScheduleId`),
   KEY `UserID` (`UserID`),
   CONSTRAINT `schedules_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,9 +105,12 @@ DROP TABLE IF EXISTS `tables`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tables` (
-  `TableID` int(11) NOT NULL,
+  `TableID` int(11) NOT NULL AUTO_INCREMENT,
+  `TableType` varchar(20) DEFAULT NULL,
+  `Occupied` tinyint(1) DEFAULT NULL,
+  `Capacity` int(11) DEFAULT NULL,
   PRIMARY KEY (`TableID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +137,7 @@ CREATE TABLE `users` (
   `Password` varchar(255) DEFAULT NULL,
   `Contact` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1011 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +146,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'manager','admin','','admin',''),(1000,'Manager','test','user','qwerty','1234567890'),(1001,'Manager','sample','user','qwerty','1234567890');
+INSERT INTO `users` VALUES (1,'manager','admin',NULL,'admin',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -156,4 +159,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-01 10:36:50
+-- Dump completed on 2019-12-01 22:59:29
