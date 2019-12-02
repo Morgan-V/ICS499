@@ -286,27 +286,35 @@ public class Manager_EditRemoveTables implements ActionListener {
 			if (editOccupied.getText().contentEquals("") || editType.getText().contentEquals("")
 					|| editCapacity.getText().contentEquals("")) {
 				JOptionPane.showMessageDialog(null, "Not enough information!");
-			} else if (!editOccupied.getText().contentEquals("true")
-					&& !editOccupied.getText().contentEquals("false")) {
+			} 
+			else if (!editOccupied.getText().contentEquals("true") && !editOccupied.getText().contentEquals("false")) {
 				JOptionPane.showMessageDialog(null, "Please enter true or false");
-			} else if (editTable(Integer.parseInt(editId.getText()), editType.getText(),
+			}
+					else if (editTable(Integer.parseInt(editId.getText()), editType.getText(),
 					Boolean.parseBoolean(editOccupied.getText()), Integer.parseInt(editCapacity.getText()))) {
+
+			// make sure a user is selected
+			if (editOccupied.getText().contentEquals("")) {
+				JOptionPane.showMessageDialog(null, "Please select a table");
+			} else if (editTable(Integer.parseInt(editId.getText()), editType.getText(), Boolean.parseBoolean(editOccupied.getText()),Integer.parseInt(editCapacity.getText()))) {
 				model.setValueAt(editId.getText(), selectedRows[0], 0);
 				model.setValueAt(editType.getText(), selectedRows[0], 1);
 				model.setValueAt(editOccupied.getText(), selectedRows[0], 2);
 				model.setValueAt(editCapacity.getText(), selectedRows[0], 3);
 			}
-
+			
 		} else if (e.getActionCommand() == "Delete") {
 			// make sure a table is selected
 			if (editOccupied.getText().contentEquals("")) {
 				JOptionPane.showMessageDialog(null, "Please select a row");
+				JOptionPane.showMessageDialog(null, "Please select a table");
 			} else {
 				int id = Integer.parseInt((String) table.getModel().getValueAt(selectedRows[0], 0));
 				if (removeUser(id)) {
 					model.removeRow(selectedRows[0]);
 				}
 			}
+		}
 		}
 	}
 
