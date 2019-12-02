@@ -91,7 +91,6 @@ public class CStaff_ViewMenu {
 		btnBack.setBackground(new Color(143, 188, 143));
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CStaff_Homepage.main(arguments);
 				frame.dispose();
 			}
 		});
