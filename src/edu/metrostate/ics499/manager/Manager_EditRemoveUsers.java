@@ -63,6 +63,7 @@ public class Manager_EditRemoveUsers implements ActionListener {
 			public void run() {
 				try {
 					Manager_EditRemoveUsers window = new Manager_EditRemoveUsers();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

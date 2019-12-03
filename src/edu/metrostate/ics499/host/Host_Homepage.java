@@ -29,6 +29,7 @@ public class Host_Homepage {
 			public void run() {
 				try {
 					Host_Homepage window = new Host_Homepage();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

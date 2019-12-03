@@ -31,8 +31,8 @@ import java.awt.Color;
 
 /**
  * 
- * @author Morgan This class allows the cook staff to remove and update
- *         menu items in the database
+ * @author Morgan This class allows the cook staff to remove and update menu
+ *         items in the database
  *
  */
 public class CStaff_EditRemoveMenu implements ActionListener {
@@ -66,6 +66,7 @@ public class CStaff_EditRemoveMenu implements ActionListener {
 			public void run() {
 				try {
 					CStaff_EditRemoveMenu window = new CStaff_EditRemoveMenu();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -162,6 +163,7 @@ public class CStaff_EditRemoveMenu implements ActionListener {
 		frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 
 	}
+
 	/**
 	 * Reads in settings from settings.conf
 	 */
@@ -179,10 +181,9 @@ public class CStaff_EditRemoveMenu implements ActionListener {
 		} catch (IOException e1) {
 			System.out.println("An error occured");
 			System.exit(1);
-			
+
 		}
-		MYSQL_URL = "jdbc:mysql://" + prop.getProperty("MYSQL_IP") +
-				":" + prop.getProperty("MYSQL_PORT") + "/" 
+		MYSQL_URL = "jdbc:mysql://" + prop.getProperty("MYSQL_IP") + ":" + prop.getProperty("MYSQL_PORT") + "/"
 				+ prop.getProperty("MYSQL_SCHEMA") + "?useSSL=false";
 		MYSQL_USERNAME = prop.getProperty("MYSQL_USER");
 		MYSQL_PASSWORD = prop.getProperty("MYSQL_PASS");
@@ -199,8 +200,7 @@ public class CStaff_EditRemoveMenu implements ActionListener {
 	 */
 	private boolean removeMenuItem(int id) {
 		try {
-			con = (Connection) DriverManager
-					.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
+			con = (Connection) DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
 			stmt = con.prepareStatement("delete from menuitems where MenuItem = ?;");
 			stmt.setInt(1, id);
 			int row = stmt.executeUpdate();

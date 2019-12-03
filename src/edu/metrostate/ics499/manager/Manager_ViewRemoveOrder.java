@@ -60,6 +60,7 @@ public class Manager_ViewRemoveOrder implements ActionListener {
 			public void run() {
 				try {
 					Manager_ViewRemoveOrder window = new Manager_ViewRemoveOrder();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

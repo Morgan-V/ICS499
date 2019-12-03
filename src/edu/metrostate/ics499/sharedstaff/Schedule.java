@@ -50,6 +50,7 @@ public class Schedule {
 			public void run() {
 				try {
 					Schedule window = new Schedule();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

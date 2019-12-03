@@ -68,7 +68,7 @@ public class Login_Screen {
 			public void run() {
 				try {
 					Login_Screen window = new Login_Screen();
-					window.frame.setUndecorated(true);
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -93,7 +93,7 @@ public class Login_Screen {
 		frame.getContentPane().setBackground(new Color(47, 79, 79));
 		frame.setBackground(new Color(70, 130, 180));
 		frame.getContentPane().setForeground(new Color(250, 235, 215));
-		frame.setBounds(100, 100, 856, 496);
+		frame.setBounds(100, 100, 889, 518);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);

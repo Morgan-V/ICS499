@@ -62,6 +62,7 @@ public class CStaff_CompleteOrders implements ActionListener {
 			public void run() {
 				try {
 					CStaff_CompleteOrders window = new CStaff_CompleteOrders();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

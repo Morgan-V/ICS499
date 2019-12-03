@@ -30,6 +30,7 @@ public class WStaff_Homepage {
 			public void run() {
 				try {
 					WStaff_Homepage window = new WStaff_Homepage();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

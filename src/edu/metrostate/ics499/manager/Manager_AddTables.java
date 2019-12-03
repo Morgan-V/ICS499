@@ -45,6 +45,7 @@ public class Manager_AddTables {
 			public void run() {
 				try {
 					Manager_AddTables window = new Manager_AddTables();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -102,6 +103,7 @@ public class Manager_AddTables {
 		
 		//success label, display success if table created
 		SuccessAddLabel = new JLabel("");
+		SuccessAddLabel.setForeground(new Color(169, 169, 169));
 		SuccessAddLabel.setBackground(new Color(169, 169, 169));
 		SuccessAddLabel.setFont(new Font("Arial", Font.BOLD, 20));
 		SuccessAddLabel.setBounds(48, 163, 368, 29);

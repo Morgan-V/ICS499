@@ -68,6 +68,7 @@ public class Manager_AddUsers implements ActionListener{
 			public void run() {
 				try {
 					Manager_AddUsers window = new Manager_AddUsers();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

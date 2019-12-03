@@ -51,6 +51,7 @@ public class CStaff_AddMenu {
 			public void run() {
 				try {
 					CStaff_AddMenu window = new CStaff_AddMenu();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -35,6 +35,7 @@ public class CStaff_Homepage {
 			public void run() {
 				try {
 					CStaff_Homepage window = new CStaff_Homepage();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

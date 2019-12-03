@@ -26,6 +26,7 @@ public class Manager_Homepage {
 			public void run() {
 				try {
 					Manager_Homepage window = new Manager_Homepage();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -99,8 +100,6 @@ public class Manager_Homepage {
 				        JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[1]);
 				if (n == 0) {
 					Manager_EditRemoveUsers.main(null);
-					//frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-
 				}
 				if (n == 1) {
 					Manager_AddUsers.main(null);

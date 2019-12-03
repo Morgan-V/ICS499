@@ -60,6 +60,7 @@ public class Host_ViewTables implements ActionListener {
 			public void run() {
 				try {
 					Host_ViewTables window = new Host_ViewTables();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -254,10 +255,6 @@ public class Host_ViewTables implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == "Update") {
-			// make sure a user is selected
-//			if (editOccupied.getText().contentEquals("")) {
-//				JOptionPane.showMessageDialog(null, "Please select a user");
-//			}
 			//make sure user enters true or false - do not accept anything but that
 			if(!editOccupied.getText().contentEquals("true") && !editOccupied.getText().contentEquals("false")) {
 				JOptionPane.showMessageDialog(null, "Please enter true or false");

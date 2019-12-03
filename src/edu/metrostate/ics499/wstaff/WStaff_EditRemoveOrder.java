@@ -71,6 +71,7 @@ public class WStaff_EditRemoveOrder implements ActionListener {
 			public void run() {
 				try {
 					WStaff_EditRemoveOrder window = new WStaff_EditRemoveOrder();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -47,6 +47,7 @@ public class Orders {
 			public void run() {
 				try {
 					Orders window = new Orders();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

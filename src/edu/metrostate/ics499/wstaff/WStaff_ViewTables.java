@@ -50,6 +50,7 @@ public class WStaff_ViewTables {
 			public void run() {
 				try {
 					WStaff_ViewTables window = new WStaff_ViewTables();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

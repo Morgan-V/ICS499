@@ -56,6 +56,7 @@ public class WStaff_AddOrder {
 			public void run() {
 				try {
 					WStaff_AddOrder window = new WStaff_AddOrder();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

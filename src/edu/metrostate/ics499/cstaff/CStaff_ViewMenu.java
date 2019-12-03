@@ -31,18 +31,15 @@ public class CStaff_ViewMenu {
 	private static Connection con;
 	private static Statement stmt;
 	private static JTable displayMenuTable;
-	private static String[] arguments;
-	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		arguments = args;
-
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					CStaff_ViewMenu window = new CStaff_ViewMenu();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 					
 					con = (Connection) DriverManager

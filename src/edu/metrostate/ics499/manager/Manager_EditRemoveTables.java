@@ -62,6 +62,7 @@ public class Manager_EditRemoveTables implements ActionListener {
 			public void run() {
 				try {
 					Manager_EditRemoveTables window = new Manager_EditRemoveTables();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

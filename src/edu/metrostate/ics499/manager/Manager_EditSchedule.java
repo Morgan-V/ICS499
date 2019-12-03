@@ -70,6 +70,7 @@ public class Manager_EditSchedule implements ActionListener {
 			public void run() {
 				try {
 					Manager_EditSchedule window = new Manager_EditSchedule();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
